@@ -1,0 +1,51 @@
+package com.slipper.unieap.ea.mybill.vo;
+
+import java.io.Serializable;
+
+import com.slipper.unieap.exttools.JpaConvert;
+
+import lombok.Data;
+
+@Data
+@JpaConvert
+public class AccountFeeItemVO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 用户账单费用关系ID
+	 */
+	private Long id;
+
+	private Long userId;
+
+	private String userCode;
+
+	private String userName;
+
+	private String accountCode;
+
+	private String brokerName;
+
+	private String feeLevel;
+
+	private String feeType;
+
+	private String feeDesc;
+
+	private double feeAmount;
+
+	private String feeAmountType;
+
+	private String subscribeStartDate;
+
+	private String feeDate;
+
+	private String startDate;
+
+	private String endDate;
+
+}

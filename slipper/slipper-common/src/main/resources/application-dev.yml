@@ -1,0 +1,38 @@
+unieap:
+  app-base-url: 'http://localhost:8806'
+  sharefolder-path: 'C:/data/sharefolder/upload/'
+project:
+  group: slipper
+  name: slipper
+
+service:
+  port: 8806
+  context-path: /slipper
+
+database:
+  ip: localhost
+  port: 3306
+  name: slipper-admin-base
+  username: root
+  password: root
+
+druid:
+  url-pattern: /druid/*
+  username:
+  password:
+
+token:
+  expire: 72000
+
+redis:
+  host: localhost
+  port: 6379
+  password:
+
+netty:
+  port: 8816
+  url: ws://localhost:${netty.port}/slipper/websocket/{token}
+wxapi:
+  appid: wx899f5ff205cdd4ec
+  secret: b7e1f00ffbdf6d6832cbc5cd54bb86f3
+  url: https://api.weixin.qq.com/sns/jscode2session?appid=${wxapi.appid}&secret=${wxapi.secret}&js_code={0}&grant_type=authorization_code

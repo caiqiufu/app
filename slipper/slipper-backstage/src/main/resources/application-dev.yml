@@ -1,0 +1,69 @@
+spring:
+  ###email#################################################
+  ###不能使用qq密码，需要使用qq邮箱专门的授权密码
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 744161932@qq.com
+    password: fhlkvhagryqsbdjf #授权码 twqrixwnbecmbfge
+unieap:
+  app-base-url: 'http://localhost:${service.port}'
+  sharefolder-path: 'C:/data/sharefolder/upload/'
+  default-language: 'zh_CN'
+project:
+  group: slipper
+  name: slipper
+
+service:
+  port: 8806
+  context-path: /slipper
+
+database:
+  ip: localhost   
+  #ip: 47.242.149.181
+  #ip: 39.108.63.198
+  port: 3306
+  name: slipper-admin-base
+  username: unieap
+  password: unieap
+
+druid:
+  url-pattern: /druid/*
+  username:
+  password:
+
+token:
+  expire: 72000
+
+jpa:
+  show-sql: true
+
+redis:
+  host: localhost
+  port: 6379
+  password:
+
+netty:
+  port: 8816
+  url: ws://localhost:${netty.port}/slipper/websocket/{token}
+wxapi:
+  appid: wxcedda3d1b047c348
+  secret: 104e90fc2ee2fff65711387198d6b0cd
+  url: https://api.weixin.qq.com/sns/jscode2session?appid=${wxapi.appid}&secret=${wxapi.secret}&js_code={0}&grant_type=authorization_code
+aliyun:
+  appcode: 11dc726278414a24b5af538081b0b3c7
+  #accessKeyId: 203766073
+  #accessKeySecret: zlvim7kfd9a02hae31cknouhmun1cc1d
+  accessKeyId: LTAI5t8gsE4amWeLPi6oAd53 #aliyun accessKeyId 新创建
+  accessKeySecret: AfNWXK5oESmAKjy8yyyeJOrF5ZBmdz #aliyun accessKeySecret 新创建
+  #  CST_ptdie100 测试模板  SMS_275075690 中科兴业 SMS_465120919 龙知易验证码
+  tempCodeVerifyCode: SMS_465120919 #龙知易验证码模板
+  tempCodeDefaultPasswordNotify: SMS_465420256 #龙知易用户初始默认密码通知
+  moji:
+   host: https://aliv8.data.moji.com
+   path: /whapi/json/aliweather/forecast24hours
+app_lzy: 
+   servicePhoneNumber: 15994725242
+   serviceEmail: service@szlongzhiyi.com
+   eaHIP: 39.108.63.198,172.29.109.103  #登陆IP 8.217.6.50/172.25.46.14  39.108.63.198/172.29.109.103
+   eaDIP: 47.242.149.181,172.25.46.12 #登陆IP 47.242.149.181 172.25.46.12
