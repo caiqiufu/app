@@ -1,0 +1,7 @@
+{
+  "name": "unieap",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

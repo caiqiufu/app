@@ -1,0 +1,1 @@
+"use strict";const e=require("../../../common/vendor.js"),n={methods:{send(){let n=parseInt(1e4*Math.random());e.index.$emit("cc",{msg:"From uni.$emit -> "+n})}}};const t=e._export_sfc(n,[["render",function(n,t,o,r,s,c){return{a:e.o(((...e)=>c.send&&c.send(...e)))}}]]);wx.createComponent(t);

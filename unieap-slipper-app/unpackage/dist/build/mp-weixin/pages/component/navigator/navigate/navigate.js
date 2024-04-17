@@ -1,0 +1,1 @@
+"use strict";const e=require("../../../../common/vendor.js"),t={data:()=>({title:"新建的页面"})};if(!Array){e.resolveComponent("page-head")()}Math;const r=e._export_sfc(t,[["render",function(t,r,n,o,a,c){return{a:e.p({title:a.title})}}]]);wx.createPage(r);

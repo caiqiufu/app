@@ -1,0 +1,2 @@
+@import "../../../nvue.wxss";
+.page{flex:1}.swiper{flex:1;background-color:#007aff}.swiper-item{flex:1}.video{flex:1;width:100%}

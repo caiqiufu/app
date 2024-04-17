@@ -1,0 +1,7 @@
+{
+  "name": "slipper_call",
+  "dependencies": {},
+  "extensions": {
+    "uni-cloud-jql": {}
+  }
+}

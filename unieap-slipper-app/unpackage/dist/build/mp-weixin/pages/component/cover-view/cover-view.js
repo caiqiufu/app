@@ -1,0 +1,1 @@
+"use strict";const e=require("../../../common/vendor.js"),o={data:()=>({showMap:!1}),onLoad(){this.showMap=!0}};if(!Array){e.resolveComponent("page-head")()}Math;const a=e._export_sfc(o,[["render",function(o,a,r,t,s,n){return e.e({a:e.p({title:"cover-view用于覆盖map、video等原生组件"}),b:s.showMap},(s.showMap,{}))}]]);wx.createPage(a);
