@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "审核日志",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "uni-data-select": "../../../../uni_modules/uni-data-select/components/uni-data-select/uni-data-select",
+    "uni-forms-item": "../../../../uni_modules/uni-forms/components/uni-forms-item/uni-forms-item",
+    "uni-easyinput": "../../../../uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput",
+    "uni-list": "../../../../uni_modules/uni-list/components/uni-list/uni-list",
+    "uni-forms": "../../../../uni_modules/uni-forms/components/uni-forms/uni-forms"
+  }
+}
