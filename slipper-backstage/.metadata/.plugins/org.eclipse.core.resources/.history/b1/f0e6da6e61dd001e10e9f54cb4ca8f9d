@@ -1,0 +1,123 @@
+package com.slipper.unieap.ea.job;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.slipper.service.unieap.base.email.MailBO;
+import com.slipper.service.unieap.base.email.MailVO;
+import com.slipper.service.unieap.base.sms.SMSBO;
+import com.slipper.unieap.ea.pojo.TradeNotify;
+import com.slipper.unieap.ea.repository.TradeNotifyRepository;
+import com.slipper.unieap.task.job.DynamicJob;
+
+/**
+ * 策略提醒
+ * 
+ * @author caiqi
+ *
+ */
+@Service
+public class TaskEANotify extends DynamicJob {
+
+	@Autowired
+	public SMSBO sMSBO;
+
+	@Autowired
+	public MailBO mailBO;
+
+	@Autowired
+	public TradeNotifyRepository tradeNotifyRepository;
+
+	@Value("${spring.mail.username}")
+	String username;
+	@Value("${app_lzy.servicePhoneNumber}")
+	String servicePhoneNumber;
+	@Value("${app_lzy.serviceEmail}")
+	String serviceEmail;
+
+	@Override
+	public void execute(JobExecutionContext context) throws JobExecutionException {
+		sendNotify();
+	}
+
+	public void sendNotify() {
+		List<TradeNotify> datas = tradeNotifyRepository.getEANotifyList();
+		if (datas != null && datas.size() > 0) {
+			for (TradeNotify data : datas) {
+				// 目前只支持邮件提醒
+				emailNotify(data.getNotifyContent());
+				tradeNotifyRepository.updateEAEmailNotifyStatus();
+				// smsNotify(data.getNotifyContent());
+			}
+
+		}
+	}
+
+	/**
+	 * Email Notify
+	 */
+	public void emailNotify(String notifyContent,String eaType,List<Map<String, String>> emailList) {
+		String tradeType = "";
+		if (StringUtils.contains(notifyContent, ":SELL:")) {
+			tradeType = "卖出";
+		}
+		if (StringUtils.contains(notifyContent, ":BUY:")) {
+			tradeType = "买入";
+		}
+		if (StringUtils.contains(notifyContent, ":CLOSE_SELL:") || StringUtils.contains(notifyContent, ":CLOSE_BUY:")) {
+			tradeType = "平仓";
+		}
+		String[] emails = new String[emailList.size()];
+		for (int i = 0; i < emailList.size(); i++) {
+			emails[i] = emailList.get(i).get("email");
+		}
+		MailVO mailvo = new MailVO();
+		mailvo.setSubject("【深圳龙知易科技】EA策略提醒");
+		mailvo.setToAddressList(emails);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("title", mailvo.getSubject());
+		model.put("userName", "尊敬的客户");
+		model.put("tradeType", tradeType);
+		model.put("servicePhoneNumber", servicePhoneNumber);
+		model.put("serviceEmail", serviceEmail);
+		try {
+			mailBO.sendTemplateMail(username, mailvo, "ea-email.ftl", model);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void smsNotify(String notifyContent) {
+		String tradeType = "";
+		if (StringUtils.contains(notifyContent, ":SELL:")) {
+			tradeType = "卖出";
+		}
+		if (StringUtils.contains(notifyContent, ":BUY:")) {
+			tradeType = "买入";
+		}
+		if (StringUtils.contains(notifyContent, ":CLOSE_SELL:") || StringUtils.contains(notifyContent, ":CLOSE_BUY:")) {
+			tradeType = "平仓";
+		}
+		List<Map<String, String>> phoneNumberList = tradeNotifyRepository.getEAPhoneNumberList();
+		String[] phoneNumbers = new String[phoneNumberList.size()];
+		for (int i = 0; i < phoneNumberList.size(); i++) {
+			phoneNumbers[i] = phoneNumberList.get(i).get("email");
+		}
+		String tempCode = "";
+		try {
+			sMSBO.sendSMS(phoneNumbers, tradeType, tempCode);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

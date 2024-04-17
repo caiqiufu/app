@@ -1,0 +1,247 @@
+package com.slipper.unieap.utils;
+
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
+
+import org.apache.commons.lang3.StringUtils;
+
+public class DateUtils {
+
+	public static String DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	public static String DATE_FORMAT = "yyyy-MM-dd";
+
+	public static String formatToStr(Date date, String dateFormat) {
+		if (date == null) {
+			return null;
+		}
+		if (StringUtils.isEmpty(dateFormat)) {
+			dateFormat = DATETIME_FORMAT;
+		}
+		SimpleDateFormat objSDateFormat = new SimpleDateFormat(dateFormat);
+		return objSDateFormat.format(date);
+	}
+
+	/**
+	 * 获取现在时间
+	 * 
+	 * @return 返回时间类型 yyyy-MM-dd HH:mm:ss
+	 */
+	public static Date getNowDate(String dateFormat) {
+		Date currentTime = new Date();
+		if (StringUtils.isEmpty(dateFormat)) {
+			dateFormat = DATETIME_FORMAT;
+		}
+		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+		String dateString = formatter.format(currentTime);
+		ParsePosition pos = new ParsePosition(8);
+		Date currentTime_2 = formatter.parse(dateString, pos);
+		return currentTime_2;
+	}
+
+	public static String getStrDate(String dateFormat) {
+		if (StringUtils.isEmpty(dateFormat)) {
+			dateFormat = DATETIME_FORMAT;
+		}
+		Date currentTime = new Date();
+		return formatToStr(currentTime, dateFormat);
+	}
+
+	public static Date strToDate(String strDate, String dateFormat) {
+		if (StringUtils.isEmpty(dateFormat)) {
+			dateFormat = DATETIME_FORMAT;
+		}
+		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+		ParsePosition pos = new ParsePosition(0);
+		Date strtodate = formatter.parse(strDate, pos);
+		return strtodate;
+	}
+
+	/**
+	 * 提取一个月中的最后一天
+	 * 
+	 * @param day
+	 * @return
+	 */
+	public static Date getLastDateOfMonth(long day) {
+		Date date = new Date();
+		long date_3_hm = date.getTime() - 3600000 * 34 * day;
+		Date date_3_hm_date = new Date(date_3_hm);
+		return date_3_hm_date;
+	}
+
+	/**
+	 * 得到现在时间
+	 * 
+	 * @return 字符串 yyyyMMdd HHmmss
+	 */
+	public static String getStrToday() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HHmmss");
+		String dateString = formatter.format(currentTime);
+		return dateString;
+	}
+
+	/**
+	 * 得到现在小时
+	 */
+	public static String getHour() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		String hour;
+		hour = dateString.substring(11, 13);
+		return hour;
+	}
+
+	/**
+	 * 得到现在分钟
+	 * 
+	 * @return
+	 */
+	public static String getTime() {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dateString = formatter.format(currentTime);
+		String min;
+		min = dateString.substring(14, 16);
+		return min;
+	}
+
+	/**
+	 * 根据用户传入的时间表示格式，返回当前时间的格式 如果是yyyyMMdd，注意字母y不能大写。
+	 * 
+	 * @param sformat yyyyMMddhhmmss
+	 * @return
+	 */
+	public static String getUserDate(String sformat) {
+		Date currentTime = new Date();
+		SimpleDateFormat formatter = new SimpleDateFormat(sformat);
+		String dateString = formatter.format(currentTime);
+		return dateString;
+	}
+
+	/**
+	 * 当天开始时间
+	 * 
+	 * @return
+	 */
+	public static Date getDayStart() {
+		// 获取当天日期
+		LocalDate now = LocalDate.now();
+		// 当天开始时间
+		LocalDateTime todayStart = now.atStartOfDay();
+		Date dayDate = Date.from(todayStart.atZone(ZoneId.systemDefault()).toInstant());
+		return dayDate;
+	}
+
+	/**
+	 * 获取给定日期的开始时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date getDayStart(Date date) {
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// 当天开始时间
+		LocalDateTime todayStart = localDate.atStartOfDay();
+		Date dayDate = Date.from(todayStart.atZone(ZoneId.systemDefault()).toInstant());
+		return dayDate;
+	}
+
+	/**
+	 * 当天结束时间
+	 * 
+	 * @return
+	 */
+	public static Date getDayEnd() {
+		// 获取当天日期
+		LocalDate now = LocalDate.now();
+		// 当天结束时间
+		LocalDateTime todayEnd = LocalDateTime.of(now, LocalTime.MAX);
+		LocalDateTime startOfDay = todayEnd.withHour(23).withMinute(59).withSecond(59);
+		Date startDate = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return startDate;
+	}
+
+	/**
+	 * 获取给定日期的结束时间
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static Date getDayEnd(Date date) {
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// 当天结束时间
+		LocalDateTime todayEnd = LocalDateTime.of(localDate, LocalTime.MAX);
+		LocalDateTime endOfDay = todayEnd.withHour(23).withMinute(59).withSecond(59);
+		Date dayDate = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return dayDate;
+	}
+
+	/**
+	 * 一周开始时间
+	 * 
+	 * @return
+	 */
+	public static Date getWeekStartDate() {
+		// 获取当天日期
+		LocalDate now = LocalDate.now();
+		// 周一
+		LocalDate monday = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+		// 本周开始时间
+		LocalDateTime weekStart = monday.atStartOfDay();
+		LocalDateTime startOfDay = weekStart.withHour(0).withMinute(0).withSecond(0);
+		Date weekStartDate = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return weekStartDate;
+	}
+
+	/**
+	 * 一周结束时间
+	 * 
+	 * @return
+	 */
+	public static Date getWeekEndDate() {
+		// 获取当天日期
+		LocalDate now = LocalDate.now();
+		// 周日
+		LocalDate sunday = now.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+		// 本周结束时间
+		LocalDateTime weekEnd = LocalDateTime.of(sunday, LocalTime.MAX);
+		LocalDateTime endOfDay = weekEnd.withHour(23).withMinute(59).withSecond(59);
+		Date weekStartEnd = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return weekStartEnd;
+	}
+
+	/**
+	 * 获取当月开始时间
+	 * 
+	 * @return
+	 */
+	public static Date getMonthStartDate() {
+		LocalDate currentDate = LocalDate.now();
+		LocalDate firstDayOfMonth = currentDate.withDayOfMonth(1);
+		// 当月的开始时间
+		LocalDateTime startOfMonth = LocalDateTime.of(firstDayOfMonth, LocalTime.MIN);
+		LocalDateTime startOfDay = startOfMonth.withHour(0).withMinute(0).withSecond(0);
+		Date monthStartDate = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return monthStartDate;
+	}
+
+	public static Date getMonthEndDate() {
+		LocalDate currentDate = LocalDate.now();
+		LocalDate lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+		// 当月的结束时间
+		LocalDateTime endOfMonth = LocalDateTime.of(lastDayOfMonth, LocalTime.MAX);
+		LocalDateTime endOfDay = endOfMonth.withHour(23).withMinute(59).withSecond(59);
+		Date monthEndDate = Date.from(endOfDay.atZone(ZoneId.systemDefault()).toInstant());
+		return monthEndDate;
+	}
+
+}

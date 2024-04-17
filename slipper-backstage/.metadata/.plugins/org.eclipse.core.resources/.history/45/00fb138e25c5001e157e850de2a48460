@@ -1,0 +1,108 @@
+package com.slipper.unieap.ea.repository;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.slipper.unieap.db.UnieapRepository;
+import com.slipper.unieap.ea.myaccount.vo.AccountInfoVO;
+import com.slipper.unieap.ea.myaccount.vo.TradeRecordVO;
+import com.slipper.unieap.ea.myagent.vo.AgentAccountInfoVO;
+import com.slipper.unieap.ea.myagent.vo.AgentSummaryInfoVO;
+import com.slipper.unieap.ea.mybill.vo.BillDetailInfoVO;
+import com.slipper.unieap.ea.mybill.vo.BillSummaryInfoVO;
+import com.slipper.unieap.ea.pojo.TradeUserAccount;
+
+@Repository
+public interface TradeUserAccountRepository extends UnieapRepository<TradeUserAccount> {
+	
+	/**
+	 * 获取用户下的账户列表
+	 * @param userCode
+	 * @return
+	 */
+	@Query(value = "SELECT ua.id,ua.user_id as userId,u.user_code as userCode,u.user_name as userName,ua.account_code as accountCode,ua.broker_code as brokerCode,ua.broker_name as brokerName,ua.account_balance as accountBalance,ua.account_equity as accountEquity,ua.account_margin as accountMargin,ua.account_freemargin as accountFreemargin FROM trade_user_account ua,trade_user u WHERE ua.user_id = u.id AND u.user_code=?1", nativeQuery = true)
+	List<AccountInfoVO> getAccountList(String userCode);
+	
+	/**
+	 * 获取账户余额信息
+	 * @param accountCode
+	 * @return
+	 */
+	@Query(value = "SELECT tr.broker_code as brokerCode, tr.account_balance as accountBalance,tr.account_equity as accountEquity,tr.account_margin as accountMargin,tr.account_freemargin as accountFreemargin FROM trade_record tr where tr.id = (SELECT max(id) FROM trade_record where account_code = ?1)", nativeQuery = true)
+	AccountInfoVO getAccountBalanceInfo(String accountCode);
+	
+	
+	@Query(value = "SELECT IF(tr.order_type= 'BUY' or tr.order_type= 'SELL', tr.open_price,tr.close_price) AS price, tr.id,tr.account_code as accountCode,tr.broker_code as brokerCode,tr.broker_name as brokerName,tr.auto_flag as autoFlag,tr.order_type as orderType,tr.volume,tr.open_price as openPrice,tr.close_price as closePrice,tr.profit_amount as profitAmount,tr.create_time as tradeTime FROM trade_record tr WHERE tr.account_code = ?1 AND tr.create_time>=?2 AND tr.create_time <=?3",
+	           countQuery = "SELECT count(*) FROM trade_record tr WHERE tr.account_code = ?1 AND tr.create_time>=?2 AND tr.create_time <=?3",
+	           nativeQuery = true)
+	Page<TradeRecordVO> queryTradeRecordPage(String accountCode, Date startDate,Date endDate,Pageable pageable);
+	
+	/**
+	 * 获取用户所有账户费用汇总
+	 * @param userCode
+	 * @return
+	 */
+	@Query(value = "SELECT u.id as userId, u.user_code as userCode, u.user_name as userName, sum(ub.bill_amount) as totalBillAmount,sum(ub.outstanding_amount) as totalOutstandingAmount,sum(ub.paid_amount) as totalPaidAmount  FROM trade_user_bill ub, trade_user u WHERE ub.user_id = u.id AND u.user_code =?1 GROUP BY u.id, u.user_code, u.user_name", nativeQuery = true)
+	BillSummaryInfoVO getBillSummaryInfo(String userCode);
+		
+	/**
+	 * 查询用户账户费用明细
+	 * @param userCode
+	 * @param startDate
+	 * @param endDate
+	 * @param pageable
+	 * @return
+	 */
+	@Query(value = "SELECT ub.id,ub.fee_type as feeType,ub.fee_desc as feeDesc,ub.bill_date as billDate,ub.start_date as billStartDate,ub.end_date as billEndDate,CONCAT(SUBSTRING_INDEX(ub.start_date, ' ', 1),'/',SUBSTRING_INDEX(ub.end_date, ' ', 1)) AS billDuration,ub.create_date as createDate,ub.bill_amount as billAmount,ub.outstanding_amount as outstandingAmount,ub.paid_amount as paidAmount FROM trade_user_bill ub,trade_user u WHERE ub.user_id = u.id AND u.user_code = ?1 AND ub.bill_date>=?2 AND ub.bill_date<=?3",
+	           countQuery = "SELECT count(*) FROM trade_user_bill ub,trade_user u WHERE ub.user_id = u.id AND u.user_code = ?1 AND ub.bill_date>=?2 AND ub.bill_date<=?3",
+	           nativeQuery = true)
+	Page<BillDetailInfoVO> queryBillDetailInfoPage(String userCode, Date startDate,Date endDate,Pageable pageable);
+	
+	@Query(value = "SELECT u.id as userId, u.user_code as userCode, u.user_name as userName, sum(ub.bill_amount) as totalBillAmount,sum(ub.outstanding_amount) as totalOutstandingAmount,sum(ub.paid_amount) as totalPaidAmount  FROM trade_user_bill ub, trade_user u WHERE ub.user_id = u.id AND u.user_code =?1 GROUP BY u.id, u.user_code, u.user_name", nativeQuery = true)
+	AgentSummaryInfoVO getAgentSummaryInfo(String userCode);
+	
+	/**
+	 * 代理用户中总的欠费用户数
+	 * @param userCode
+	 * @return
+	 */
+	@Query(value = "SELECT count(*) as outstandingNumber FROM trade_user_bill ub WHERE ub.fee_desc in (SELECT ua.account_code FROM trade_user_account ua WHERE ua.agent_user_code = ?1) AND ub.outstanding_amount >0", nativeQuery = true)
+	Double getOutstandingNumber(String userCode);
+	
+	/**
+	 * 代理总收入
+	 * @param userCode
+	 * @return
+	 */
+	@Query(value = "SELECT sum(-bill_amount) as totalRevenueAmount FROM trade_user_bill ub,trade_user u  WHERE ub.user_id = u.id and ub.fee_type = 'A' AND u.user_code = ?1", nativeQuery = true)
+	Double getTotalRevenueAmount(String userCode);
+	
+	/**
+	 * 代理当月收入
+	 * @param userCode
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	@Query(value = "SELECT sum(-bill_amount) FROM trade_user_bill ub,trade_user u  WHERE ub.user_id = u.id AND ub.fee_type = 'A' OR ub.fee_type = 'B' AND ub.bill_date = DATE_FORMAT(NOW(), '%Y%m') AND u.user_code = ?1", nativeQuery = true)
+	Double getRevenueAmount(String userCode);
+	
+	@Query(value = "SELECT DATE_FORMAT(NOW(), '%Y%m') as revenueMonth FROM dual", nativeQuery = true)
+	String getRevenueMonth();
+	
+	/**
+	 * 查询代理账户信息
+	 * @param userCode
+	 * @param pageable
+	 * @return
+	 */
+	@Query(value = "SELECT ua.id,ua.account_code as accountCode,u.user_name as userName,u.phone_number as phoneNumber,u.weixin,u.whatsapp as whatsApp,u.email,u.address,ua.subscribe_flag as subscribeFlag, sum(ub.outstanding_amount) as outstandingAmount, IF(sum(ub.outstanding_amount)>0,'Y','N') as outstandingFlag,u.phone_number as phoneNumber,u.weixin, u.email,ua.subscribe_start_date as subscribeStartDate,ua.account_balance as accountBalance FROM trade_user_account ua LEFT JOIN trade_user_bill ub ON ub.fee_desc = ua.account_code, trade_user u  WHERE ua.agent_user_code = u.user_code AND ua.agent_user_code = ?1  GROUP BY ua.id,ua.account_code,ua.subscribe_flag, ub.outstanding_amount,u.user_name,u.phone_number,u.weixin, u.email,ua.subscribe_start_date,ua.account_balance ",
+	           countQuery = "SELECT count(*)  FROM trade_user_account ua, trade_user u  WHERE ua.agent_user_code = u.user_code AND ua.agent_user_code = ?1",
+	           nativeQuery = true)
+	Page<AgentAccountInfoVO> queryAgentAccountInfoPage(String userCode ,Pageable pageable);
+}

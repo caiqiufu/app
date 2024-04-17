@@ -1,0 +1,38 @@
+package com.slipper.unieap.ea.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.slipper.unieap.db.UnieapRepository;
+import com.slipper.unieap.ea.myaccount.vo.TradeAutoVO;
+import com.slipper.unieap.ea.pojo.TradeAuto;
+
+@Repository
+public interface TradeAutoRepository extends UnieapRepository<TradeAuto> {
+	
+	/**
+	 * 获取账户的托管信息
+	 * @param accountCode
+	 * @return
+	 */
+	@Query(value = "SELECT ta.id,ta.execute_ip as executeIp,ea_ip as eaIp,ta.form_no as formNo,ta.account_code as accountCode,ta.login_status as loginStatus,DATE_FORMAT(ta.login_date,'%Y-%m-%d %T') as loginDate,ta.auto_status as autoStatus,DATE_FORMAT( ta.auto_date,'%Y-%m-%d %T')as autoDate,ta.error_msg as errorMsg FROM trade_auto ta WHERE ta.account_code = ?1", nativeQuery = true)
+	TradeAutoVO getAutoInfo(String accountCode);
+	
+	/**
+	 * 获取执行账户总数
+	 * @param executeIp
+	 * @return
+	 */
+	@Query(value = "SELECT CAST(COUNT(*), CHAR) AS totalTraders, CAST(MAX(SUBSTRING(form_no,CHAR_LENGTH('MT4EAC1Trade')+1)), CHAR) AS maxClientNo,SUBSTRING(form_no,1,CHAR_LENGTH(form_no)-1) AS clientName FROM trade_auto a WHERE a.execute_ip = ?1 GROUP BY a.execute_ip,SUBSTRING(form_no,1,CHAR_LENGTH(form_no)-1)", nativeQuery = true)
+	List<Map<String, String>> getAutoConfigInfo(String executeIp);
+	
+	/**
+	 * 获取所有托管列表
+	 * @param executeIp
+	 * @return
+	 */
+	List<TradeAuto> findByExecuteIp(String executeIp);
+}

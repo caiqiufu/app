@@ -1,0 +1,13 @@
+package com.unieap.base.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.unieap.base.pojo.MdmDsConfig;
+
+@Repository
+public interface UnieapDsConfigRepository extends JpaRepository<MdmDsConfig, Long> {
+	List<MdmDsConfig> findByActivateFlag(String activateFlag);
+}

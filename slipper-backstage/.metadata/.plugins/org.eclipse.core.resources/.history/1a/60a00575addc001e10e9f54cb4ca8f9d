@@ -1,0 +1,25 @@
+package com.slipper.unieap.ea.repository;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.slipper.unieap.db.UnieapRepository;
+import com.slipper.unieap.ea.eainfo.vo.EAInfoVO;
+import com.slipper.unieap.ea.pojo.TradeEa;
+
+@Repository
+public interface TradeEARepository extends UnieapRepository<TradeEa> {
+
+	/**
+	 * 获取指定时间段内的策略数据
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	@Query(value = "SELECT ea.create_time as eaTime,substring_index(ea.ea_command,':',-1) as profitPoint,(select CONCAT('交易类型: ',IF(c2.tradeType='CLOSE_SELL','卖','买'),', 开仓价格: ', c2.openPrice,', 平仓价格: ',c2.closePrice ,', 盈亏点数： ',c2.profitPoint) as eaCommand from (select substring_index(c1.command,':',1) as tradeType,substring_index(substring_index(c1.command,':',2),':',-1) as openPrice, substring_index(substring_index(c1.command,':',3),':',-1) as closePrice,substring_index(c1.command,':',-1) as profitPoint from (select substring_index(ea.ea_command,' ',-1) as command ) c1) c2) as eaCommand FROM trade_ea ea WHERE ea.ea_command LIKE '%CLOSE_SELL%' OR ea.ea_command LIKE '%CLOSE_BUY%' AND ea.server_id = ?1 AND ea.create_time>=?2 AND ea.create_time<=?3 ORDER BY create_time desc", nativeQuery = true)
+	List<EAInfoVO> getEAInfo(String eaType,Date startDate, Date endDate);
+}

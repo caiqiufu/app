@@ -1,0 +1,497 @@
+package com.slipper.unieap.ea.job;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.slipper.unieap.UnieapConstants;
+import com.slipper.unieap.ea.myaccount.vo.AccountInfoVO;
+import com.slipper.unieap.ea.mybill.vo.AccountFeeItemVO;
+import com.slipper.unieap.ea.mybill.vo.BillDateInfoVO;
+import com.slipper.unieap.ea.mybill.vo.BillDetailInfoVO;
+import com.slipper.unieap.ea.pojo.TradeFeeItem;
+import com.slipper.unieap.ea.pojo.TradeUser;
+import com.slipper.unieap.ea.pojo.TradeUserBill;
+import com.slipper.unieap.ea.repository.TradeFeeItemRepository;
+import com.slipper.unieap.ea.repository.TradeUserAccountRepository;
+import com.slipper.unieap.ea.repository.TradeUserBillRepository;
+import com.slipper.unieap.ea.repository.TradeUserFeeRepository;
+import com.slipper.unieap.ea.repository.TradeUserRepository;
+import com.slipper.unieap.task.job.DynamicJob;
+
+/**
+ * 生成账单任务
+ */
+@Service
+public class EAGenerateBill extends DynamicJob {
+
+	@Autowired
+	public TradeUserRepository tradeUserRepository;
+
+	@Autowired
+	public TradeUserAccountRepository tradeUserAccountRepository;
+
+	@Autowired
+	public TradeUserFeeRepository tradeUserFeeRepository;
+
+	@Autowired
+	public TradeFeeItemRepository tradeFeeItemRepository;
+
+	@Autowired
+	public TradeUserBillRepository tradeUserBillRepository;
+
+	@Override
+	public void execute(JobExecutionContext context) throws JobExecutionException {
+		billRun();
+	}
+
+	public void billRun() {
+		List<TradeUser> userList = tradeUserRepository.getAllSubscribeUserList();
+		if (userList != null && userList.size() > 0) {
+			List<TradeUserBill> tradeUserBillList = new ArrayList<TradeUserBill>();
+			for (TradeUser user : userList) {
+				// 已出账的用户，不再出账，避免账单信息被覆盖
+				List<String> subscribeFeeTypes = new ArrayList<String>();
+				subscribeFeeTypes.add("S1");
+				subscribeFeeTypes.add("S2");
+				subscribeFeeTypes.add("S3");
+				subscribeFeeTypes.add("S4");
+				subscribeFeeTypes.add("S5");
+				subscribeFeeTypes.add("S6");
+				if (!checkBillRunCompleted(user, subscribeFeeTypes)) {
+					List<BillDetailInfoVO> userSubscribeFeeList = billRunSubscribeFee(user);
+					if (userSubscribeFeeList != null && userSubscribeFeeList.size() > 0) {
+						for (BillDetailInfoVO bill : userSubscribeFeeList) {
+							TradeUserBill tradeUserBill = new TradeUserBill();
+							tradeUserBillList.add(tradeUserBill);
+							tradeUserBill.setAccountCode(bill.getAccountCode());
+							tradeUserBill.setActivateFlag(UnieapConstants.YES);
+							tradeUserBill.setBillDate(bill.getBillDate());
+							tradeUserBill.setEndDate(bill.getBillEndDate());
+							tradeUserBill.setFeeDesc(bill.getFeeDesc());
+							tradeUserBill.setFeeType(bill.getFeeType());
+							tradeUserBill.setOriginalAmount(bill.getOriginalAmount());
+							tradeUserBill.setBillAmount(bill.getBillAmount());
+							tradeUserBill.setOutstandingAmount(bill.getOutstandingAmount());
+							tradeUserBill.setPaidAmount(bill.getPaidAmount());
+							tradeUserBill.setStartDate(bill.getBillStartDate());
+							tradeUserBill.setTenantId(UnieapConstants.getTenantId());
+							tradeUserBill.setUserCode(user.getUserCode());
+							tradeUserBill.setUserName(user.getUserName());
+							tradeUserBill.setLatestPaymentDate(getLastDayOfNextMonth());
+						}
+					}
+				}
+				List<String> agentCommissionFeeTypes = new ArrayList<String>();
+				agentCommissionFeeTypes.add("AC");
+				agentCommissionFeeTypes.add("AC1");
+				agentCommissionFeeTypes.add("AC2");
+				agentCommissionFeeTypes.add("AC3");
+				if (!checkBillRunCompleted(user, agentCommissionFeeTypes)) {
+					List<BillDetailInfoVO> userBillList = billRunAgentCommission(user);
+					if (userBillList != null && userBillList.size() > 0) {
+						for (BillDetailInfoVO bill : userBillList) {
+							TradeUserBill tradeUserBill = new TradeUserBill();
+							tradeUserBillList.add(tradeUserBill);
+							tradeUserBill.setAccountCode(bill.getAccountCode());
+							tradeUserBill.setActivateFlag(UnieapConstants.YES);
+							tradeUserBill.setBillDate(bill.getBillDate());
+							tradeUserBill.setEndDate(bill.getBillEndDate());
+							tradeUserBill.setFeeDesc(bill.getFeeDesc());
+							tradeUserBill.setFeeType(bill.getFeeType());
+							tradeUserBill.setOriginalAmount(bill.getOriginalAmount());
+							tradeUserBill.setBillAmount(bill.getBillAmount());
+							tradeUserBill.setOutstandingAmount(bill.getOutstandingAmount());
+							tradeUserBill.setPaidAmount(bill.getPaidAmount());
+							tradeUserBill.setStartDate(bill.getBillStartDate());
+							tradeUserBill.setTenantId(UnieapConstants.getTenantId());
+							tradeUserBill.setUserCode(bill.getUserCode());
+							tradeUserBill.setUserName(bill.getUserName());
+							tradeUserBill.setLatestPaymentDate(getLastDayOfNextMonth());
+						}
+					}
+				}
+			}
+			tradeUserBillRepository.saveAll(tradeUserBillList);
+		}
+		List<BillDetailInfoVO> revenueCommissionList = billRunRevenueCommission();
+		if (revenueCommissionList != null && revenueCommissionList.size() > 0) {
+			List<TradeUserBill> tradeUserBillList = new ArrayList<TradeUserBill>();
+			for (BillDetailInfoVO bill : revenueCommissionList) {
+				TradeUser user = new TradeUser();
+				user.setUserCode(bill.getUserCode());
+				List<String> revenueCommissionFeeTypes = new ArrayList<String>();
+				revenueCommissionFeeTypes.add("TC");
+				if (!checkBillRunCompleted(user, revenueCommissionFeeTypes)) {
+					TradeUserBill tradeUserBill = new TradeUserBill();
+					tradeUserBillList.add(tradeUserBill);
+					tradeUserBill.setAccountCode(bill.getAccountCode());
+					tradeUserBill.setActivateFlag(UnieapConstants.YES);
+					tradeUserBill.setBillDate(bill.getBillDate());
+					tradeUserBill.setEndDate(bill.getBillEndDate());
+					tradeUserBill.setFeeDesc(bill.getFeeDesc());
+					tradeUserBill.setFeeType(bill.getFeeType());
+					tradeUserBill.setOriginalAmount(bill.getOriginalAmount());
+					tradeUserBill.setBillAmount(bill.getBillAmount());
+					tradeUserBill.setOutstandingAmount(bill.getOutstandingAmount());
+					tradeUserBill.setPaidAmount(bill.getPaidAmount());
+					tradeUserBill.setStartDate(bill.getBillStartDate());
+					tradeUserBill.setTenantId(UnieapConstants.getTenantId());
+					tradeUserBill.setUserCode(bill.getUserCode());
+					tradeUserBill.setUserName(bill.getUserName());
+					tradeUserBill.setLatestPaymentDate(getLastDayOfNextMonth());
+				}
+			}
+			tradeUserBillRepository.saveAll(tradeUserBillList);
+		}
+	}
+
+	/**
+	 * 出账前清除脏数据
+	 * 
+	 * @param user
+	 */
+	public void deleteUserBillInfo(TradeUser user) {
+		BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+		tradeUserBillRepository.deleteUserBillInfo(user.getUserCode(), billDateInfo.getBillDate());
+	}
+
+	public boolean checkBillRunCompleted(TradeUser user, List<String> feeTypes) {
+		BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+		Double isExist = tradeUserBillRepository.checkBillRunCompleted(user.getUserCode(), billDateInfo.getBillDate(),
+				feeTypes);
+		if (isExist.intValue() > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public List<BillDetailInfoVO> billRunSubscribeFee(TradeUser user) {
+		List<BillDetailInfoVO> billDetailList = null;
+		List<AccountInfoVO> accountList = tradeUserAccountRepository.getAccountList(user.getUserCode());
+		if (accountList != null && accountList.size() > 0) {
+			billDetailList = new ArrayList<BillDetailInfoVO>();
+			for (AccountInfoVO account : accountList) {
+				List<AccountFeeItemVO> accountFeeList = tradeUserFeeRepository
+						.getAccountFeeList(account.getAccountCode());
+				List<BillDetailInfoVO> subscribeFeeBillDetailList = calculateSubscribeFee(accountFeeList);
+				if (subscribeFeeBillDetailList != null) {
+					billDetailList.addAll(subscribeFeeBillDetailList);
+				}
+			}
+		}
+		return billDetailList;
+	}
+
+	/**
+	 * 计算用户的所有费用，但是不包含总收入佣金
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public List<BillDetailInfoVO> billRunAgentCommission(TradeUser user) {
+		List<BillDetailInfoVO> billDetailList = null;
+		List<AccountInfoVO> accountList = tradeUserAccountRepository.getAccountList(user.getUserCode());
+		if (accountList != null && accountList.size() > 0) {
+			billDetailList = new ArrayList<BillDetailInfoVO>();
+			List<BillDetailInfoVO> agentBillDetailInfoList = tradeUserBillRepository
+					.getAgentBillInfoList(user.getAgentCode());
+			// 有代理账户,根据代理账户订阅计算佣金并生成Bill Info
+			if (agentBillDetailInfoList != null && agentBillDetailInfoList.size() > 0) {
+				BillDetailInfoVO agentCommissionFeeBillDetailVO = calculateAgentCommissionFee(agentBillDetailInfoList);
+				if (agentCommissionFeeBillDetailVO != null) {
+					billDetailList.add(agentCommissionFeeBillDetailVO);
+					agentCommissionFeeBillDetailVO.setAccountCode(null);
+					agentCommissionFeeBillDetailVO.setUserCode(user.getUserCode());
+					agentCommissionFeeBillDetailVO.setUserName(user.getUserName());
+					BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+					agentCommissionFeeBillDetailVO.setBillDate(billDateInfo.getBillDate());
+					agentCommissionFeeBillDetailVO.setBillStartDate(billDateInfo.getBillStartDate());
+					agentCommissionFeeBillDetailVO.setBillEndDate(billDateInfo.getBillEndDate());
+				} else {
+					// 没有代理账户,直接生成一条Bill Info,费用为0
+					BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+					BillDetailInfoVO billDetailInfoVO = new BillDetailInfoVO();
+					billDetailList.add(billDetailInfoVO);
+					billDetailInfoVO.setUserCode(user.getUserCode());
+					billDetailInfoVO.setUserName(user.getUserName());
+					billDetailInfoVO.setBillDate(billDateInfo.getBillDate());
+					billDetailInfoVO.setBillStartDate(billDateInfo.getBillStartDate());
+					billDetailInfoVO.setBillEndDate(billDateInfo.getBillEndDate());
+					TradeFeeItem tradeFeeItem = tradeFeeItemRepository.findByFeeType("AC").get(0);
+					billDetailInfoVO.setFeeDesc(tradeFeeItem.getFeeDesc());
+					billDetailInfoVO.setFeeType(tradeFeeItem.getFeeType());
+					billDetailInfoVO.setId(tradeFeeItem.getId());
+					billDetailInfoVO.setOriginalAmount(Double.valueOf(0));
+					billDetailInfoVO.setBillAmount(Double.valueOf(0));
+					billDetailInfoVO.setOutstandingAmount(billDetailInfoVO.getBillAmount());
+					billDetailInfoVO.setPaidAmount(Double.valueOf(0));
+				}
+			} else {
+				// 没有代理账户,直接生成一条Bill Info,费用为0
+				BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+				BillDetailInfoVO billDetailInfoVO = new BillDetailInfoVO();
+				billDetailList.add(billDetailInfoVO);
+				billDetailInfoVO.setUserCode(user.getUserCode());
+				billDetailInfoVO.setUserName(user.getUserName());
+				billDetailInfoVO.setBillDate(billDateInfo.getBillDate());
+				billDetailInfoVO.setBillStartDate(billDateInfo.getBillStartDate());
+				billDetailInfoVO.setBillEndDate(billDateInfo.getBillEndDate());
+				TradeFeeItem tradeFeeItem = tradeFeeItemRepository.findByFeeType("AC").get(0);
+				billDetailInfoVO.setFeeDesc(tradeFeeItem.getFeeDesc());
+				billDetailInfoVO.setFeeType(tradeFeeItem.getFeeType());
+				billDetailInfoVO.setId(tradeFeeItem.getId());
+				billDetailInfoVO.setOriginalAmount(Double.valueOf(0));
+				billDetailInfoVO.setBillAmount(Double.valueOf(0));
+				billDetailInfoVO.setOutstandingAmount(billDetailInfoVO.getBillAmount());
+				billDetailInfoVO.setPaidAmount(Double.valueOf(0));
+			}
+		}
+
+		return billDetailList;
+	}
+
+	/**
+	 * 总收入佣金
+	 * 
+	 * @return
+	 */
+	public List<BillDetailInfoVO> billRunRevenueCommission() {
+		List<BillDetailInfoVO> billList = null;
+		List<TradeUser> userList = tradeUserRepository.getAllSubscribeUserList();
+		if (userList != null && userList.size() > 0) {
+			billList = new ArrayList<BillDetailInfoVO>();
+			TradeFeeItem tradeFeeItem = tradeFeeItemRepository.findByFeeType("TC").get(0);
+			// 该用户的总收入代理佣金
+			for (TradeUser user : userList) {
+				BillDetailInfoVO billInfo = tradeUserBillRepository.getRevenueCommissionBillInfo(user.getAgentCode());
+				if (billInfo != null) {
+					BillDetailInfoVO billDetailVo = new BillDetailInfoVO();
+					billList.add(billDetailVo);
+					billDetailVo.setUserCode(user.getUserCode());
+					billDetailVo.setUserName(user.getUserName());
+					billDetailVo.setOriginalAmount(billInfo.getOriginalAmount() * tradeFeeItem.getFeeAmount());
+					billDetailVo.setFeeType(billInfo.getFeeType());
+					billDetailVo.setFeeDesc(billInfo.getFeeDesc());
+					billDetailVo.setBillAmount(billDetailVo.getOriginalAmount());
+					billDetailVo.setOutstandingAmount(billDetailVo.getBillAmount());
+					billDetailVo.setPaidAmount(Double.valueOf(0));
+					billDetailVo.setBillDate(billInfo.getBillDate());
+					billDetailVo.setBillStartDate(billInfo.getBillStartDate());
+					billDetailVo.setBillEndDate(billInfo.getBillEndDate());
+				} else {
+					BillDateInfoVO billDateInfo = tradeUserBillRepository.getBillDateInfo();
+					BillDetailInfoVO billDetailVo = new BillDetailInfoVO();
+					billList.add(billDetailVo);
+					billDetailVo.setUserCode(user.getUserCode());
+					billDetailVo.setUserName(user.getUserName());
+					billDetailVo.setBillDate(billDateInfo.getBillDate());
+					billDetailVo.setBillStartDate(billDateInfo.getBillStartDate());
+					billDetailVo.setBillEndDate(billDateInfo.getBillEndDate());
+					billDetailVo.setFeeDesc(tradeFeeItem.getFeeDesc());
+					billDetailVo.setFeeType(tradeFeeItem.getFeeType());
+					billDetailVo.setId(tradeFeeItem.getId());
+					billDetailVo.setOriginalAmount(Double.valueOf(0));
+					billDetailVo.setBillAmount(Double.valueOf(0));
+					billDetailVo.setOutstandingAmount(billDetailVo.getBillAmount());
+					billDetailVo.setPaidAmount(Double.valueOf(0));
+				}
+			}
+		}
+		return billList;
+	}
+
+	/**
+	 * 计算订阅费用
+	 * 
+	 * @param feeList
+	 * @return
+	 */
+	public List<BillDetailInfoVO> calculateSubscribeFee(List<AccountFeeItemVO> feeList) {
+		List<BillDetailInfoVO> billDetailList = null;
+		if (feeList != null && feeList.size() > 0) {
+			billDetailList = new ArrayList<BillDetailInfoVO>();
+			for (AccountFeeItemVO fee : feeList) {
+				BillDetailInfoVO billDetailVo = new BillDetailInfoVO();
+				if (StringUtils.equals(fee.getFeeType(), "S1") || StringUtils.equals(fee.getFeeType(), "S2")
+						|| StringUtils.equals(fee.getFeeType(), "S3") || StringUtils.equals(fee.getFeeType(), "S4")
+						|| StringUtils.equals(fee.getFeeType(), "S5") || StringUtils.equals(fee.getFeeType(), "S6")) {
+					billDetailVo.setAccountCode(fee.getAccountCode());
+					billDetailVo.setFeeDesc(fee.getFeeDesc());
+					billDetailVo.setUserCode(fee.getUserCode());
+					billDetailVo.setUserName(fee.getUserName());
+					billDetailVo.setFeeType(fee.getFeeType());
+					billDetailVo.setId(fee.getId());
+					billDetailVo.setOriginalAmount(fee.getFeeAmount());
+					double discountAmount = billDetailVo.getOriginalAmount();
+					for (AccountFeeItemVO fee2 : feeList) {
+						if (StringUtils.equals(fee2.getFeeType(), "SD1") || StringUtils.equals(fee2.getFeeType(), "SD2")
+								|| StringUtils.equals(fee2.getFeeType(), "SD3")
+								|| StringUtils.equals(fee2.getFeeType(), "SD4")
+								|| StringUtils.equals(fee2.getFeeType(), "SD5")
+								|| StringUtils.equals(fee2.getFeeType(), "SD6")) {
+							discountAmount = discountAmount * (1 - fee2.getFeeAmount());
+							billDetailVo.setFeeDesc(billDetailVo.getFeeDesc() + "/" + fee2.getFeeDesc());
+						}
+					}
+					billDetailVo.setBillAmount(discountAmount);
+					billDetailVo.setOutstandingAmount(billDetailVo.getBillAmount());
+					billDetailVo.setPaidAmount(Double.valueOf(0));
+					billDetailVo.setBillDate(fee.getFeeDate());
+					billDetailVo.setBillStartDate(fee.getStartDate());
+					billDetailVo.setBillEndDate(fee.getEndDate());
+					billDetailList.add(billDetailVo);
+				}
+			}
+		}
+		return billDetailList;
+	}
+
+	/**
+	 * 计算订阅佣金费用,只有完全缴费的用户才计入佣金计算
+	 * 
+	 * @param feeList
+	 * @return
+	 */
+	public List<BillDetailInfoVO> calculateSubscribeFeeCommission(List<AccountFeeItemVO> feeList) {
+		List<BillDetailInfoVO> billDetailList = null;
+		if (feeList != null && feeList.size() > 0) {
+			billDetailList = new ArrayList<BillDetailInfoVO>();
+			for (AccountFeeItemVO fee : feeList) {
+				BillDetailInfoVO billDetailVo = new BillDetailInfoVO();
+				if (StringUtils.equals(fee.getFeeType(), "S1") || StringUtils.equals(fee.getFeeType(), "S2")
+						|| StringUtils.equals(fee.getFeeType(), "S3") || StringUtils.equals(fee.getFeeType(), "S4")
+						|| StringUtils.equals(fee.getFeeType(), "S5") || StringUtils.equals(fee.getFeeType(), "S6")) {
+					billDetailVo.setAccountCode(fee.getAccountCode());
+					billDetailVo.setFeeDesc(fee.getFeeDesc());
+					billDetailVo.setUserCode(fee.getUserCode());
+					billDetailVo.setUserName(fee.getUserName());
+					billDetailVo.setFeeType(fee.getFeeType());
+					billDetailVo.setId(fee.getId());
+					billDetailVo.setOriginalAmount(fee.getFeeAmount());
+					double discountAmount = billDetailVo.getOriginalAmount();
+					for (AccountFeeItemVO fee2 : feeList) {
+						if (StringUtils.equals(fee2.getFeeType(), "SD1") || StringUtils.equals(fee2.getFeeType(), "SD2")
+								|| StringUtils.equals(fee2.getFeeType(), "SD3")
+								|| StringUtils.equals(fee2.getFeeType(), "SD4")
+								|| StringUtils.equals(fee2.getFeeType(), "SD5")
+								|| StringUtils.equals(fee2.getFeeType(), "SD6")) {
+							discountAmount = discountAmount * (1 - fee2.getFeeAmount());
+							billDetailVo.setFeeDesc(billDetailVo.getFeeDesc() + "/" + fee2.getFeeDesc());
+						}
+					}
+					billDetailVo.setBillAmount(discountAmount);
+					billDetailVo.setOutstandingAmount(billDetailVo.getBillAmount());
+					billDetailVo.setPaidAmount(Double.valueOf(0));
+					billDetailVo.setBillDate(fee.getFeeDate());
+					billDetailVo.setBillStartDate(fee.getStartDate());
+					billDetailVo.setBillEndDate(fee.getEndDate());
+					billDetailList.add(billDetailVo);
+				}
+			}
+		}
+		return billDetailList;
+	}
+
+	/**
+	 * 计算佣金费用
+	 * 
+	 * @param feeList
+	 * @return
+	 */
+	public BillDetailInfoVO calculateAgentCommissionFee(List<BillDetailInfoVO> billDetailList) {
+		BillDetailInfoVO billDetailInfoVO = null;
+		if (billDetailList != null && billDetailList.size() > 0) {
+			billDetailInfoVO = new BillDetailInfoVO();
+			double totalSubscribeFee = 0;
+			String accountCode = "";
+			// 计算总订阅费用
+			for (BillDetailInfoVO vo : billDetailList) {
+				totalSubscribeFee = totalSubscribeFee + vo.getBillAmount();
+				accountCode = vo.getAccountCode();
+			}
+			// billDetailInfoVO.setUserCode(vo.getUserCode());
+			// billDetailInfoVO.setUserName(vo.getUserName());
+			// billDetailInfoVO.setBillDate(vo.getBillDate());
+			// billDetailInfoVO.setBillStartDate(vo.getBillStartDate());
+			// billDetailInfoVO.setBillEndDate(vo.getBillEndDate());
+			// 计算总返佣金
+			// List<String> agentCommissionFeeItems = new ArrayList<String>();
+			// agentCommissionFeeItems.add("AC");
+			// agentCommissionFeeItems.add("AC1");
+			// agentCommissionFeeItems.add("AC2");
+			// agentCommissionFeeItems.add("AC3");
+
+			List<AccountFeeItemVO> agentCommissionFeeItems = tradeUserFeeRepository.getAccountFeeList(accountCode);
+			for (AccountFeeItemVO tradeFeeItemType : agentCommissionFeeItems) {
+				TradeFeeItem tradeFeeItem = tradeFeeItemRepository.findByFeeType(tradeFeeItemType.getFeeType()).get(0);
+				billDetailInfoVO.setFeeDesc(tradeFeeItem.getFeeDesc());
+				billDetailInfoVO.setFeeType(tradeFeeItem.getFeeType());
+				// billDetailInfoVO.setId(tradeFeeItem.getId());
+				billDetailInfoVO.setOriginalAmount(-totalSubscribeFee * tradeFeeItem.getFeeAmount());
+				billDetailInfoVO.setBillAmount(billDetailInfoVO.getOriginalAmount());
+				billDetailInfoVO.setOutstandingAmount(billDetailInfoVO.getBillAmount());
+				billDetailInfoVO.setPaidAmount(Double.valueOf(0));
+			}
+		}
+		return billDetailInfoVO;
+	}
+
+	/**
+	 * 计算总收入佣金费用
+	 * 
+	 * @param totalAgentCommissionFee
+	 * @return
+	 */
+	public BillDetailInfoVO calculateRevenueCommissionFee(BillDetailInfoVO totalAgentCommissionFee) {
+
+		BillDetailInfoVO billDetailInfoVO = new BillDetailInfoVO();
+		billDetailInfoVO.setUserCode(totalAgentCommissionFee.getUserCode());
+		billDetailInfoVO.setUserName(totalAgentCommissionFee.getUserName());
+		billDetailInfoVO.setBillDate(totalAgentCommissionFee.getBillDate());
+		billDetailInfoVO.setBillStartDate(totalAgentCommissionFee.getBillStartDate());
+		billDetailInfoVO.setBillEndDate(totalAgentCommissionFee.getBillEndDate());
+
+		TradeFeeItem tradeFeeItem = tradeFeeItemRepository.findByFeeType("AC").get(0);
+		billDetailInfoVO.setFeeDesc(tradeFeeItem.getFeeDesc());
+		billDetailInfoVO.setFeeType(tradeFeeItem.getFeeType());
+		billDetailInfoVO.setId(tradeFeeItem.getId());
+		billDetailInfoVO.setOriginalAmount(-totalAgentCommissionFee.getBillAmount() * tradeFeeItem.getFeeAmount());
+		billDetailInfoVO.setBillAmount(billDetailInfoVO.getOriginalAmount());
+		billDetailInfoVO.setOutstandingAmount(billDetailInfoVO.getBillAmount());
+		billDetailInfoVO.setPaidAmount(Double.valueOf(0));
+		return billDetailInfoVO;
+	}
+
+	private Date getLastDayOfNextMonth() {
+		Calendar calendar = Calendar.getInstance();
+		// 将日期调整到下个月第一天
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		// 再次将日期调整到上个月最后一天
+		calendar.add(Calendar.DATE, -1);
+		Date lastDayOfNextMonth = calendar.getTime();
+		// LocalDateTime dateTime = LocalDateTime.of(calendar.YEAR, calendar.MONTH,
+		// calendar.DATE, 23, 59, 59);
+		// Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+		String dateStr = tradeUserBillRepository.getcLatestPaymentDate();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 定义日期格式
+		try {
+			lastDayOfNextMonth = sdf.parse(dateStr);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return lastDayOfNextMonth;
+	}
+}

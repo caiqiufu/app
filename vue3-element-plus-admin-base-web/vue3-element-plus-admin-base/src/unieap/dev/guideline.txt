@@ -1,0 +1,2 @@
+1. 框架中修改过的文件
+main.js App.vue  router/index.js

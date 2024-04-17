@@ -1,0 +1,195 @@
+package com.slipper.unieap;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.MessageSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.servlet.LocaleResolver;
+
+import com.slipper.service.modules.administrator.model.dto.AdministratorRoleDTO;
+import com.slipper.service.modules.role.model.dto.RoleSimplifyDTO;
+import com.slipper.shiro.utils.ShiroUtils;
+import com.slipper.unieap.bo.BaseBO;
+import com.slipper.unieap.db.DBManager;
+import com.slipper.unieap.mdm.dic.vo.DicDataVO;
+import com.slipper.unieap.mdm.dic.vo.DicGroupVO;
+
+/**
+ * Dec 14, 2010 全局变量,包含WEB层与Action层的数据交互定义
+ */
+public class UnieapConstants {
+
+	public final static String YES = "Y";
+	public final static String NO = "N";
+	public final static String QUERY = "query";
+	public final static String CREATE = "create";
+	public final static String UPDATE = "update";
+	public final static String DELETE = "delete";
+	public final static String CHECKEXIST = "c_e";
+	public final static String MODIFYACTIVATEFLAG = "m_af";
+	public final static String DATEFORMAT = "yyyy-MM-dd";
+	public final static String TIMEFORMAT = "yyyy-MM-dd HH:mm:ss";
+	public final static String LANGUAGE = Locale.SIMPLIFIED_CHINESE.toLanguageTag();
+	/**
+	 * 数据源
+	 */
+	public final static Map<String,DataSource> DS = new HashMap<String,DataSource>();
+
+	/**
+	 * 应用发布URL
+	 */
+	public static String APP_BASE_URL = "";
+	/**
+	 * 应用路径
+	 */
+	public static String APP_PATH = "";
+	/**
+	 * 共享文件物理目录
+	 */
+	public static String SHAREFOLDER_PATH = "";
+	/**
+	 * 共享文件访问路径
+	 */
+	public static String SHAREFOLDER_URL = "";
+	/**
+	 * EA 策略平台
+	 */
+	public static String APP_CODE_EA = "EA";
+
+	public final static String getCurrentTime() {
+		Date data = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		String dt = sdf.format(data);
+		return dt;
+	}
+
+	public final static Date getDateTime() {
+		Timestamp obj = DBManager.getBizJT(null).queryForObject("SELECT CURRENT_TIMESTAMP() CURRENTTIME",
+				Timestamp.class);
+		return obj;
+	}
+
+	public static DicGroupVO getDicGroup(String groupCode) {
+		BaseBO baseBO = (BaseBO) ApplicationContextProvider.getBean("baseBO");
+		return baseBO.getDicGroup(groupCode);
+	}
+
+	public static DicDataVO getDicData(String groupCode, String dicCode) {
+		BaseBO baseBO = (BaseBO) ApplicationContextProvider.getBean("baseBO");
+		Locale locale = LocaleContextHolder.getLocale();
+		String language = locale.toString();
+		return baseBO.getDicData(language, groupCode, dicCode);
+	}
+
+	public static DicDataVO getDicData(String groupCode, String dicCode, String dicName) {
+		if (StringUtils.isNotEmpty(dicCode)) {
+			return getDicData(groupCode, dicCode);
+		} else {
+			BaseBO baseBO = (BaseBO) ApplicationContextProvider.getBean("baseBO");
+			DicGroupVO dicGroupVO = baseBO.getDicGroup(groupCode);
+			List<DicDataVO> dataList = dicGroupVO.getDataList();
+			if (dataList != null && dataList.size() > 0) {
+				for (DicDataVO vo : dataList) {
+					if (StringUtils.equals(vo.getDicName(), dicName)) {
+						return vo;
+					}
+				}
+			}
+		}
+		return new DicDataVO();
+	}
+
+	public final static String getMessage(String code, String language, String[] args) {
+		if (StringUtils.isEmpty(language)) {
+			Locale locale = LocaleContextHolder.getLocale();
+			language = locale.getLanguage();
+		}
+		return getMessageResource().getMessage(code, args, Locale.forLanguageTag(language));
+	}
+
+	public final static String getMessage(String code, String[] args) {
+		return getMessageResource().getMessage(code, args, Locale.forLanguageTag(LANGUAGE));
+	}
+
+	/**
+	 * MessageSource
+	 * 
+	 * @return
+	 */
+	private static MessageSource getMessageResource() {
+		return (MessageSource) ApplicationContextProvider.getBean("messageSource");
+	}
+
+	public synchronized final static Long getSeq(String serialName) {
+		int batchNo = 1;
+		return Long.valueOf(getBatchSeq(serialName, batchNo));
+	}
+
+	public synchronized final static String getMaxCode(int length, String tableName) {
+		if (length < 0) {
+			length = 0;
+		}
+		return DBManager.getBizJT(null).queryForObject("select lpad(COALESCE((max(convert(e.code,signed))+1),1),"
+				+ length + ",0) as seq from " + tableName + " e", String.class);
+	}
+
+	public synchronized final static int getBatchSeq(String serialName, int batchLength) {
+		if (StringUtils.isEmpty(serialName)) {
+			serialName = "unieap";
+		}
+		return DBManager.getBizJT(null)
+				.queryForObject("SELECT NEXTVAL('" + serialName + "'," + batchLength + ") SEQ", Long.class).intValue();
+	}
+
+	public static Long getUserId() {
+		return ShiroUtils.getAdministratorId();
+	}
+
+	public static AdministratorRoleDTO getAdministrator() {
+		return ShiroUtils.getAdministrator();
+	}
+
+	public static boolean isAdminWithActivate() {
+		List<RoleSimplifyDTO> datas = ShiroUtils.getAdministrator().getRoles();
+		if (datas != null && datas.size() > 0) {
+			for (RoleSimplifyDTO role : datas) {
+				if (StringUtils.equals(role.getName(), "AdminWithActivate")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public static Long getTenantId() {
+		return Long.valueOf(1);
+		// return ShiroUtils.getEnterpriseId();
+	}
+
+	// 自定义国际化组件 重写了 WebMvcAutoConfiguration 类中的 localeResolver 方法
+	@Bean
+	public LocaleResolver localeResolver() {
+		return new MyLocaleResolver();
+	}
+
+	public static enum ORDER_TYPE {
+		/**
+		 * 修改MT4交易密码
+		 */
+		MODIFY_MT4_PASSWORD,
+		/**
+		 * 发送密码修改提醒
+		 */
+		SEND_PASSWORD_NOTIFY
+	}
+}

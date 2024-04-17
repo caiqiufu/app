@@ -1,0 +1,112 @@
+package com.slipper.unieap.ea.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.slipper.unieap.db.UnieapRepository;
+import com.slipper.unieap.ea.pojo.TradeNotify;
+
+@Repository
+public interface TradeNotifyRepository extends UnieapRepository<TradeNotify> {
+
+	/**
+	 * 查询当前提醒的最大ID
+	 * 
+	 * @param notifyType
+	 * @return
+	 */
+	@Query(value = "SELECT max(CONVERT(notify_id, UNSIGNED)) AS maxId FROM trade_notify WHERE notify_type = ?1", nativeQuery = true)
+	Integer getMaxId(String notifyType);
+
+	/**
+	 * 生成EA提醒
+	 * 
+	 * @param maxId
+	 */
+	@Transactional
+	@Modifying
+	@Query(value = "INSERT INTO trade_notify (notify_type,notify_id,notify_content,account_code,status,create_by,create_date,tenant_id) SELECT '1' AS notify_type, ea.id AS notify_id, ea.ea_command AS notify_content,'' AS account_code ,'1' AS status,'unieap' as create_by, sysdate() as create_date,1 as tenant_id FROM trade_ea ea WHERE ea.id > ?1", nativeQuery = true)
+	void generateEANotify(Integer maxId);
+
+	/**
+	 * 生成交易提醒
+	 * 
+	 * @param maxId
+	 */
+	@Transactional
+	@Modifying
+	@Query(value = "INSERT INTO trade_notify (notify_type,notify_id,notify_content,account_code,status,email_status,sms_status,create_by,create_date,tenant_id) SELECT '2' AS notify_type, re.id AS notify_id, CONCAT('order_type:',re.order_type,',volume:', re.volume,',open_price:',IF(re.open_price=-99,'',re.open_price),',close_price:',IF(re.close_price=-99,'',re.close_price)) AS notify_content,re.account_code ,'1' AS status,'1' AS email_status,'1' AS sms_status, 'unieap' as create_by, sysdate() as create_date,1 as tenant_id FROM trade_record re WHERE re.id > ?1", nativeQuery = true)
+	void generateTradeNotify(Integer maxId);
+
+	/**
+	 * 获取交易提醒列表
+	 * 
+	 * @return
+	 */
+	@Query(value = "SELECT e FROM TradeNotify e WHERE e.notifyType = '1' AND e.status = '1'")
+	List<TradeNotify> getEANotifyList();
+
+	/**
+	 * 更新EA提醒状态
+	 * 
+	 * @param id
+	 */
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE trade_notify e SET e.status = '2' ,e.modify_by = 'unieap',e.modify_date = sysdate() WHERE e.notify_type = '1' AND e.status = '1' AND e.id>0", nativeQuery = true)
+	void updateEANotifyStatus();
+
+	/**
+	 * 获取EA提醒电话号码
+	 * 
+	 * @return
+	 */
+	@Query(value = "SELECT u.phone_number as phoneNumber FROM trade_user_account ua,trade_user u WHERE ua.user_id = u.id AND ua.activate_flag = 'Y' AND ua.sms_notify = 'Y' AND u.phone_number IS NOT NULL AND (ua.subscribe_flag IN ('S1','S2','S3') OR ua.trial_end_date >=sysdate())", nativeQuery = true)
+	List<Map<String, String>> getEAPhoneNumberList();
+
+	/**
+	 * 获取EA提醒邮件
+	 * 
+	 * @return
+	 */
+	@Query(value = "SELECT u.email FROM trade_user_account ua,trade_user u WHERE ua.user_id = u.id AND ua.activate_flag = 'Y' AND ua.sms_notify = 'Y' AND u.email IS NOT NULL AND (ua.subscribe_flag IN ('S1','S2','S3') OR ua.trial_end_date >=sysdate())", nativeQuery = true)
+	List<Map<String, String>> getEAEmailList();
+
+	/**
+	 * 获取Trade提醒电话
+	 * 
+	 * @return
+	 */
+	@Query(value = "SELECT DISTINCT u.phone_number AS phoneNumber,u.user_name as userName,n.notify_content as notifyContent,n.account_code as accountCode FROM trade_notify n,trade_user_account ua,trade_user u WHERE ua.user_id = u.id AND n.account_code = ua.account_code AND n.status = '1' AND u.phone_number IS NOT NULL", nativeQuery = true)
+	List<Map<String, String>> getTradePhoneNumberList();
+
+	/**
+	 * 获取Trade提醒邮件
+	 * 
+	 * @return
+	 */
+	@Query(value = "SELECT DISTINCT u.email,u.user_name as userName,n.id ,n.notify_content as notifyContent,n.account_code as accountCode FROM trade_notify n,trade_user_account ua,trade_user u WHERE ua.user_id = u.id AND n.account_code = ua.account_code AND n.status = '1' AND n.email_status = '1' AND u.email IS NOT NULL LIMIT 500", nativeQuery = true)
+	List<Map<String, String>> getTradeEmailList();
+
+	/**
+	 * 更新交易提醒状态
+	 */
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE trade_notify e SET e.status = '2',e.modify_by = 'unieap',e.modify_date = sysdate() WHERE e.notify_type = '2' AND e.status = '1' AND e.id>0", nativeQuery = true)
+	void updateTradeNotifyStatus();
+	
+	/**
+	 * 更新交易邮件提醒状态
+	 */
+	@Transactional
+	@Modifying
+	@Query(value = "UPDATE trade_notify e SET e.email_status = '2',e.modify_by = 'unieap',e.modify_date = sysdate() WHERE e.notify_type = '2' AND e.status = '1' AND e.email_status = '1' AND e.id>0", nativeQuery = true)
+	void updateTradeEmailNotifyStatus();
+
+}

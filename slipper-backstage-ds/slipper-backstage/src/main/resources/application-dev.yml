@@ -1,0 +1,46 @@
+spring:
+  ###email#################################################
+  ###不能使用qq密码，需要使用qq邮箱专门的授权密码
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 744161932@qq.com
+    password: fhlkvhagryqsbdjf
+unieap:
+  app-base-url: 'http://localhost:${service.port}'
+  sharefolder-path: 'C:/data/sharefolder/upload/'
+project:
+  group: slipper
+  name: slipper
+
+service:
+  port: 8906
+  context-path: /slipper
+
+database:
+  ip: localhost
+  port: 3306
+  name: slipper-admin-base
+  username: root
+  password: root
+
+druid:
+  url-pattern: /druid/*
+  username:
+  password:
+
+token:
+  expire: 72000
+
+redis:
+  host: localhost
+  port: 6379
+  password:
+
+netty:
+  port: 8816
+  url: ws://localhost:${netty.port}/slipper/websocket/{token}
+wxapi:
+  appid: wx899f5ff205cdd4ec
+  secret: c5b41071e9ac6b6bf2f11ffcd598b02a
+  url: https://api.weixin.qq.com/sns/jscode2session?appid=${wxapi.appid}&secret=${wxapi.secret}&js_code={0}&grant_type=authorization_code

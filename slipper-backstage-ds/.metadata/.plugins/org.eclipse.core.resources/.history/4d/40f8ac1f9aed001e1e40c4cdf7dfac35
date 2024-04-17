@@ -1,0 +1,29 @@
+package com.slipper.unieap.jrds;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.alibaba.fastjson.JSONObject;
+import com.slipper.unieap.UnieapConstants;
+import com.slipper.unieap.db.DBManager;
+
+public class GenerateTestData {
+	public String DS_NAME = "JR";
+	public void generateHourlyTestData() {
+		// 先倒序插入插入数据,最新的数据最先插入
+		List<Object[]> paraList = new ArrayList<Object[]>();
+		for (Object data : datas) {
+			JSONObject jsonData = (JSONObject) data;
+			paraList.add(new Object[] { jsonData.getString("symbol"), UnieapConstants.getDateTime(),
+					jsonData.getString("pt"), jsonData.getString("bp"), jsonData.getString("sp"),
+					UnieapConstants.getDateTime(), DS_NAME });
+		}
+        Object[] para = new Object[] { "gold", jsonData.getString("time"),
+				jsonData.getString("pt"), jsonData.getString("bp"), jsonData.getString("sp"),
+				UnieapConstants.getDateTime(), DS_NAME };
+		// 插入数据
+		String insertSql = "insert into trade_daily_detail(symbol,time,pt,buy_valume,sell_valume,create_time,ds_name) values (?,?,?,?,?,?,?)";
+		DBManager.getJT().update(insertSql, para);
+	}
+
+}

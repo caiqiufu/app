@@ -1,0 +1,189 @@
+<template>
+  <Container>
+    <template #header>
+      <div class="panel-title margin_b-10 font-size-18">待审提交任务</div>
+    </template>
+    <template #default>
+      <el-table
+        ref="refTable"
+        v-loading="loading"
+        :data="list"
+        @selection-change="selectionHandle"
+        @sort-change="sortChange"
+        border
+      >
+        <el-table-column align="center" type="selection" width="50" />
+        <el-table-column
+          align="center"
+          label="项目名称"
+          prop="projectName"
+        />
+        <el-table-column
+          align="center"
+          label="员工名称"
+          prop="employeeName"
+          width="200"
+        />
+        <el-table-column
+          align="center"
+          label="任务名称"
+          prop="taskeName"
+          width="150"
+        />
+        <el-table-column
+          align="center"
+          :label="$t('unieap.comm.operation')"
+          width="80"
+          fixed="right"
+        >
+          <template v-slot="{ row }">
+            <el-button type="primary" link @click="addEditHandle(row.id)">{{
+              $t("unieap.comm.update")
+            }}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </template>
+  </Container>
+</template>
+
+<script>
+import { useI18n } from "vue-i18n";
+import {
+  defineComponent,
+  nextTick,
+  onBeforeMount,
+  reactive,
+  ref,
+  toRefs,
+} from "vue";
+import { useRouter } from 'vue-router'
+import usePage from "@/mixins/page";
+import { clearJson, havePermission } from "@/utils";
+//自定包引入
+import { bizHandleApi } from "@/api/unieap/comm";
+
+export default defineComponent({
+  components: {},
+  setup() {
+    const { t } = useI18n();
+    const router = useRouter()
+    const refForm = ref();
+    const refTable = ref();
+    const { page } = usePage();
+    //数据定义
+    const urlPrefix = "/backstage/common/";
+    const data = reactive({
+      loading: false,
+      visible: false,
+      form: {
+        sort: "id",
+        dir: "asc",
+        name: "",
+      },
+      list: [],
+      selection: [],
+    });
+    //分页数据,根据需求修改
+    const getList = () => {
+      const params = {
+        sort: data.form.sort,
+        dir: data.form.dir,
+        currentPage: page.current,
+        pageSize: page.size,
+        //查询参数
+        beanName: "projectoa.delivery.pojo.TaskLog",
+        taskStatus:'1',
+      };
+      data.loading = true;
+      params.url = urlPrefix + "commPage";
+      bizHandleApi(params).then((r) => {
+        if (r) {
+          data.list = r.data.list;
+          page.total = r.data.total;
+        }
+        nextTick(() => {
+          data.loading = false;
+        });
+      });
+    };
+    const addEditHandle = (id) => {
+      router.push({
+        path: 'unieap-projectoa-delivery-jldailylog-index',
+        query: { logId: id }
+      })
+    }
+
+    //查询
+    const reacquireHandle = () => {
+      getList();
+    };
+    //选中
+    const selectionHandle = (val) => {
+      data.selection = val;
+    };
+
+    /**
+     * column：当前列
+     * prop：当前列需要排序的字段名
+     * order：排序的规则（升序、降序和默认，默认就是没排序）
+     * @param {*} column
+     * @param {*} prop
+     * @param {*} order
+     */
+    const sortChange = (column) => {
+      data.form.sort = column.prop;
+      if (column.prop) {
+        if (column.order === "ascending") {
+          data.form.dir = "asc";
+        } else {
+          data.form.dir = "desc";
+        }
+      }
+      getList();
+    };
+    //分页
+    const pageChangeHandle = (argPage) => {
+      page.current = argPage.current;
+      page.size = argPage.size;
+      getList();
+    };
+    onBeforeMount(() => {
+      getList();
+    });
+
+    return {
+      refForm,
+      refTable,
+      page,
+      ...toRefs(data),
+      sortChange,
+      selectionHandle,
+      clearJson,
+      havePermission,
+      pageChangeHandle,
+      //自定方法
+      getList,
+      reacquireHandle,
+      addEditHandle
+    };
+  },
+});
+</script>
+
+<style lang="scss" scoped>
+.panel {
+  height: fit-content;
+  min-width: 150px;
+  border-radius: var(--el-border-radius-base);
+  background-color: var(--gl-content-panel-background-color);
+
+  &-title {
+    font-weight: 700;
+  }
+
+  &-content {
+    height: 100px;
+  }
+}
+</style>

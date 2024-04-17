@@ -1,0 +1,45 @@
+package com.slipper.unieap.ea.job;
+
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.slipper.unieap.ea.repository.TradeNotifyRepository;
+import com.slipper.unieap.task.job.DynamicJob;
+
+/**
+ * 生成提醒任务
+ */
+@Service
+public class EAGenerateNotify extends DynamicJob {
+
+	@Autowired
+	public TradeNotifyRepository tradeNotifyRepository;
+
+	@Override
+	public void execute(JobExecutionContext context) throws JobExecutionException {
+		generateNotify();
+	}
+
+	public void generateNotify() {
+		generateEANotify();
+		generateTradeNotify();
+	}
+
+	public void generateEANotify() {
+		Integer maxId = tradeNotifyRepository.getMaxId("1");
+		if (maxId == null) {
+			maxId = Integer.valueOf("0");
+		}
+		tradeNotifyRepository.generateEANotify(maxId);
+	}
+
+	public void generateTradeNotify() {
+		Integer maxId = tradeNotifyRepository.getMaxId("2");
+		if (maxId == null) {
+			maxId = Integer.valueOf("0");
+		}
+		tradeNotifyRepository.generateTradeNotify(maxId);
+	}
+}

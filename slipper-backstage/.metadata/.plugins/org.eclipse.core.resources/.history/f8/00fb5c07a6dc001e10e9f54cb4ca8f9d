@@ -1,0 +1,120 @@
+package com.slipper.unieap.ea.eainfo.bo;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.slipper.service.unieap.base.email.MailBO;
+import com.slipper.unieap.bo.BaseBO;
+import com.slipper.unieap.bo.OrderBO;
+import com.slipper.unieap.ea.eainfo.vo.EAInfoVO;
+import com.slipper.unieap.ea.eainfo.vo.SerieVO;
+import com.slipper.unieap.ea.repository.TradeEARepository;
+import com.slipper.unieap.ea.repository.TradeUserAccountRepository;
+import com.slipper.unieap.ea.repository.TradeUserFeeRepository;
+import com.slipper.unieap.utils.DateUtils;
+
+@Service
+public class EAInfoBO extends BaseBO {
+
+	@Autowired
+	public TradeEARepository tradeEARepository;
+
+	@Autowired
+	public TradeUserFeeRepository tradeUserFeeRepository;
+
+	@Autowired
+	public TradeUserAccountRepository tradeUserAccountRepository;
+
+	@Autowired
+	public MailBO mailBO;
+
+	@Autowired
+	public OrderBO orderBO;
+
+	/**
+	 * 获取本周EA信息
+	 * 
+	 * @param userCode
+	 * @return
+	 */
+	public SerieVO getWeekData(String eaType) {
+		SerieVO serieVO = getEAInfo(eaType, DateUtils.getWeekStartDate(), DateUtils.getWeekEndDate());
+		serieVO.setName("本周EA-H策略");
+		return serieVO;
+	}
+
+	/**
+	 * 获取指定周EA数据
+	 * 
+	 * @return
+	 */
+	public SerieVO getWeekData(String eaType, Date startWeekDate, Date endWeekDate) {
+		Date dateStart = DateUtils.getDayStart(startWeekDate);
+		Date dateEnd = DateUtils.getDayEnd(endWeekDate);
+		SerieVO serieVO = getEAInfo(eaType, dateStart, dateEnd);
+		serieVO.setName(dateStart.toString() + "/" + dateEnd.toString() + " EA-H策略");
+		return serieVO;
+	}
+
+	public SerieVO getMonthData(String eaType) {
+		Date dateStart = DateUtils.getMonthStartDate();
+		Date dateEnd = DateUtils.getMonthEndDate();
+		SerieVO serieVO = getEAInfo(eaType, dateStart, dateEnd);
+		serieVO.setName(dateStart.toString() + "/" + dateEnd.toString() + " EA-H策略");
+		return serieVO;
+	}
+
+	/**
+	 * 查询指定时间段的测试数据
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public SerieVO getEAInfo(String eaType, Date startDate, Date endDate) {
+		Date dateStart = DateUtils.getDayStart(startDate);
+		Date dateEnd = DateUtils.getDayEnd(endDate);
+		if (StringUtils.equals(eaType, "H")) {
+			eaType = "172.25.46.12";
+		}
+		if (StringUtils.equals(eaType, "D")) {
+			eaType = "172.25.46.14";
+		}
+		List<EAInfoVO> eaInfoList = tradeEARepository.getEAInfo(eaType, dateStart, dateEnd);
+		SerieVO serieVO = new SerieVO();
+		if (eaInfoList != null && eaInfoList.size() > 0) {
+			List<String> categories = new ArrayList<String>();
+			List<String> datas = new ArrayList<String>();
+			List<String> eaCommandList = new ArrayList<String>();
+			double totalProfitPoint = 0;
+			double totalTradeOrder = eaInfoList.size();
+			double totalProfitOrder = 0;
+			double totalLostOrder = 0;
+			for (EAInfoVO vo : eaInfoList) {
+				categories.add(vo.getEaTime());
+				datas.add(vo.getProfitPoint());
+				eaCommandList.add(vo.getEaCommand());
+				double profitPoint = Double.parseDouble(vo.getProfitPoint());
+				totalProfitPoint = totalProfitPoint + profitPoint;
+				if (profitPoint >= 0) {
+					totalProfitOrder++;
+				} else {
+					totalLostOrder++;
+				}
+			}
+			serieVO.setCategories(categories);
+			serieVO.setDatas(datas);
+			serieVO.setEaCommandList(eaCommandList);
+			serieVO.setTotalLostOrder(totalLostOrder);
+			serieVO.setTotalProfitOrder(totalProfitOrder);
+			serieVO.setTotalProfitPoint(totalProfitPoint);
+			serieVO.setTotalTradeOrder(totalTradeOrder);
+		}
+		return serieVO;
+	}
+}

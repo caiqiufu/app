@@ -1,0 +1,104 @@
+package com.slipper.unieap;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.slipper.unieap.db.DBManager;
+import com.slipper.unieap.handler.ConfigHandler;
+
+@Service
+public class LoadSystemData {
+	private final Log logger = LogFactory.getLog(LoadSystemData.class);
+	@Value("${unieap.app-base-url}")
+	String app_base_url;
+	@Value("${unieap.sharefolder-path}")
+	String sharefolder_path;
+	@Value("${service.context-path}")
+	String context_path;
+
+	/**
+	 * 加载应用基础配置参数,该参数在应用配置文件中application-dev.yml
+	 */
+	public void loadSystemConfigure() {
+		logger.info("====================================================================");
+		logger.info("***加载系统初始化参数  ***");
+		logger.info("====================================================================");
+		UnieapConstants.APP_BASE_URL = app_base_url;
+		logger.info("====================================================================");
+		logger.info("***应用发布IP和端口***");
+		logger.info(UnieapConstants.APP_BASE_URL);
+		logger.info("====================================================================");
+		UnieapConstants.SHAREFOLDER_PATH = sharefolder_path;
+		logger.info("====================================================================");
+		logger.info("***共享文件目录 ***");
+		logger.info(UnieapConstants.SHAREFOLDER_PATH);
+		logger.info("====================================================================");
+		UnieapConstants.APP_PATH = context_path;
+		logger.info("====================================================================");
+		logger.info("***应用访问地址***");
+		logger.info(UnieapConstants.APP_BASE_URL + UnieapConstants.APP_PATH);
+		logger.info("====================================================================");
+	}
+
+	public void loadSystemHandler(String handlerType) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM UNIEAP_HANDLER_CONFIG WHERE HANDLER_TYPE = ? AND ACTIVATE_FLAG=? ORDER BY SEQ ASC");
+		List<Map<String, Object>> datas = DBManager.getJT().queryForList(sql.toString(),
+				new Object[] { handlerType, UnieapConstants.YES });
+		if (datas != null & !datas.isEmpty()) {
+			Map<String, Object> data;
+			for (int i = 0; i < datas.size(); i++) {
+				data = datas.get(i);
+				if (data.get("HANDLER_NAME") != null) {
+					String handlerName = data.get("HANDLER_NAME").toString();
+					ConfigHandler configHandler = (ConfigHandler) ApplicationContextProvider.getBean(handlerName);
+					if (configHandler != null) {
+						try {
+							logger.info("====================================================================");
+							logger.info("***            handler[" + handlerName + "] process start        ***");
+							logger.info("====================================================================");
+							configHandler.deal(null);
+							logger.info("====================================================================");
+							logger.info("***            handler[" + handlerName + "] process done         ***");
+							logger.info("====================================================================");
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 加载系统配置数据,在数据库中配置,在Handler前执行
+	 */
+	public void loadSystemConfigureData() {
+		UnieapConstants.SYS_DATA.put("bss.encryption.key", "1234567890111110");
+		UnieapConstants.SYS_DATA.put("mcare.encryption.key", "1234567890543210");
+		UnieapConstants.SYS_DATA.put("tenantId", "1");
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT NAME,VALUE FROM UNIEAP_SYS_CONFIG WHERE ACTIVATE_FLAG ='Y'");
+		List<Map<String, Object>> datas = DBManager.getJT().queryForList(sql.toString());
+		if (datas != null & !datas.isEmpty()) {
+			String name, value = "";
+			Map<String, Object> data;
+			for (int i = 0; i < datas.size(); i++) {
+				data = datas.get(i);
+				if (data.get("NAME") != null) {
+					name = data.get("NAME").toString();
+					if (datas.get(i).get("VALUE") != null) {
+						value = data.get("VALUE").toString();
+					}
+					UnieapConstants.SYS_DATA.put(name, value);
+				}
+			}
+		}
+	}
+}

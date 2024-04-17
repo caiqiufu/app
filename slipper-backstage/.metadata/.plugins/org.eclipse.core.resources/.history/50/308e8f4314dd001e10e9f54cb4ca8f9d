@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+</head>
+<body>
+    <table>
+        <tr style = "height:50px">
+            <td>${userName}:先生/小姐:</td>
+        </tr>
+        <tr style = "height:20px">
+        </tr>
+        <tr style = "height:50px">
+            <td><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据EA策略分析,托管自动执行[${tradeType}]操作！</td>
+        </tr>
+        <tr style = "height:20px">
+        </tr>
+        <tr style = "height:50px">
+            <td>请在应用程序上实时查看策略执行情况，点击<a href="https://mp-a78200fa-0268-4cbb-804a-f581c33ecb4f.cdn.bspapp.com/cloudstorage/9824cacb-740c-4dd5-9b60-7dcb21944faf.apk">应用下载<a/></td>
+        </tr>
+        <tr style = "height:50px">
+            <td>风险提示:市场波动较大，请实时关注行情变化并执行相应操作。</td>
+        </tr>
+        <tr style = "height:20px">
+        </tr>
+    </table>
+
+    <p>
+        温馨提示：该信息为龙知易科技EA系统自动发出，请勿回复！
+    </p>
+    <p>
+        <span>深圳龙知易科技有限公司</span>
+    </p>
+    <p>
+        客服电话:${servicePhoneNumber}
+    </p>
+    <p>
+        客服电邮:${serviceEmail}
+    </p>
+</body>
+</html>

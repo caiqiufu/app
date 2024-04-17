@@ -1,0 +1,25 @@
+package com.slipper.unieap.ea.eainfo.vo;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
+
+import com.slipper.unieap.exttools.JpaConvert;
+
+import lombok.Data;
+
+@Data
+@JpaConvert
+public class EAInfoVO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private List<String> categories;
+
+	private List<SerieVO> serieList;
+
+	private Map<String, SerieVO> serieMap;
+}

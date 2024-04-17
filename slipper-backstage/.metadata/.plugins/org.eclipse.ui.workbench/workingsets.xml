@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.jdt.internal.ui.DynamicSourcesWorkingSet" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1706387288573_0" label="Java Main Sources" name="Java Main Sources"/>
+<workingSet editPageId="org.eclipse.jdt.internal.ui.DynamicSourcesWorkingSet" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1706387288593_1" label="Java Test Sources" name="Java Test Sources"/>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1706387350221_3" label="slipper" name="slipper">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-core" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-shiro" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-common" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-service" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-backstage" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/slipper-netty" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1706387289625_2" label="Window Working Set" name="Aggregate for window 1706387289624"/>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1706649763678_4" label="Window Working Set" name="Aggregate for window 1706649763678"/>
+</workingSetManager>

@@ -1,0 +1,22 @@
+package com.slipper.unieap.ea.repository;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import com.slipper.unieap.db.UnieapRepository;
+import com.slipper.unieap.ea.myaccount.vo.TradeAutoVO;
+import com.slipper.unieap.ea.pojo.TradeAuto;
+
+@Repository
+public interface TradeAutoRepository extends UnieapRepository<TradeAuto> {
+	
+	@Query(value = "SELECT ta.id,ta.execute_ip as executeIp,ta.form_no as formNo,ta.account_code as accountCode,ta.login_status as loginStatus,DATE_FORMAT(ta.login_date,'%Y-%m-%d %T') as loginDate,ta.auto_status as autoStatus,DATE_FORMAT( ta.auto_date,'%Y-%m-%d %T')as autoDate,ta.error_msg as errorMsg FROM trade_auto ta WHERE ta.account_code = ?1", nativeQuery = true)
+	TradeAutoVO getAutoInfo(String accountCode);
+	
+	
+	@Query(value = "SELECT COUNT(*) AS totalClients, MAX(SUBSTRING(form_no,CHAR_LENGTH('MT4EAC1Trade')+1)) AS maxClientNo  FROM trade_auto a WHERE a.execute_ip = ?1 GROUP BY a.execute_ip", nativeQuery = true)
+	List<Map<String, Integer>> getAutoConfigInfo(String executeIp);
+}

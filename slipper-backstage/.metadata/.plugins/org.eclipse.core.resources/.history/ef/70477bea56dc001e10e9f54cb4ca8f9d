@@ -1,0 +1,76 @@
+package com.slipper.unieap.ea.pojo;
+
+import java.io.Serializable;
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.slipper.unieap.UnieapConstants;
+
+import lombok.Data;
+
+@Data
+@Entity // 生成相应的表
+@EntityListeners(AuditingEntityListener.class)
+@Table(name = "trade_auto")
+public class TradeEa implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	@GeneratedValue
+	@Column(unique = true, nullable = false, length = 16, columnDefinition = "BIGINT(20) COMMENT 'ID'")
+	private Long id;
+
+	@Column(nullable = false, length = 45, columnDefinition = "varchar(45) COMMENT '执行服务器IP'")
+	private String executeIp;
+
+	@Column(nullable = false, length = 45, columnDefinition = "varchar(45) COMMENT '执行窗口编码'")
+	private String formNo;
+
+	@Column(nullable = false, length = 255, columnDefinition = "varchar(255) COMMENT '账户'")
+	private String accountCode;
+
+	@Column(nullable = true, length = 45, columnDefinition = "varchar(45) COMMENT '登录状态'")
+	private String loginStatus;
+
+	@Transient
+	private String loginStatusDesc;
+
+	public String getLoginStatusDesc() {
+		this.loginStatusDesc = UnieapConstants.getDicData("ACTIVATE_FLAG", loginStatus).getDicName();
+		return loginStatusDesc;
+	}
+
+	@Column(nullable = true, columnDefinition = "DATETIME COMMENT '登陆时间'")
+	private Date loginDate;
+
+	@Column(nullable = true, length = 45, columnDefinition = "varchar(45) COMMENT '托管状态'")
+	private String autoStatus;
+
+	@Transient
+	private String autoStatusDesc;
+
+	public String getAutoStatusDesc() {
+		this.autoStatusDesc = UnieapConstants.getDicData("ACTIVATE_FLAG", autoStatus).getDicName();
+		return autoStatusDesc;
+	}
+
+	@Column(nullable = true, columnDefinition = "DATETIME COMMENT '登陆时间'")
+	private Date autoDate;
+
+	@Column(nullable = true, length = 255, columnDefinition = "varchar(255) COMMENT '异常信息'")
+	private String errorMsg;
+
+}

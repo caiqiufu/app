@@ -1,0 +1,243 @@
+package com.slipper.unieap.ea.me.bo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.alibaba.fastjson.JSONObject;
+import com.slipper.service.unieap.base.email.MailBO;
+import com.slipper.unieap.UnieapConstants;
+import com.slipper.unieap.bo.BaseBO;
+import com.slipper.unieap.bo.OrderBO;
+import com.slipper.unieap.ea.me.vo.MeInfoVO;
+import com.slipper.unieap.ea.myaccount.vo.AccountInfoVO;
+import com.slipper.unieap.ea.pojo.TradeUser;
+import com.slipper.unieap.ea.pojo.TradeUserAccount;
+import com.slipper.unieap.ea.pojo.TradeUserFee;
+import com.slipper.unieap.ea.repository.TradeUserAccountRepository;
+import com.slipper.unieap.ea.repository.TradeUserFeeRepository;
+import com.slipper.unieap.ea.repository.TradeUserRepository;
+import com.slipper.unieap.mdm.dic.vo.DicDataVO;
+import com.slipper.unieap.vo.OrderVO;
+
+@Service
+public class MeBO extends BaseBO {
+
+	@Autowired
+	public TradeUserRepository tradeUserRepository;
+
+	@Autowired
+	public TradeUserFeeRepository tradeUserFeeRepository;
+
+	@Autowired
+	public TradeUserAccountRepository tradeUserAccountRepository;
+
+	@Autowired
+	public MailBO mailBO;
+
+	@Autowired
+	public OrderBO orderBO;
+
+	/**
+	 * 获取用户信息,包括用户下的账户列表
+	 * 
+	 * @param userCode
+	 * @return
+	 */
+	public MeInfoVO getMeInfo(String userCode) {
+		MeInfoVO meInfoVO = tradeUserRepository.getUserInfo(userCode);
+		List<AccountInfoVO> accountList = tradeUserAccountRepository.getAccountList(userCode);
+		meInfoVO.setAccountList(accountList);
+		return meInfoVO;
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateActivateFlag(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		pojo.setActivateFlag(vo.getActivateFlag());
+		tradeUserAccountRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateEaType(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		pojo.setEaType(vo.getEaType());
+		tradeUserAccountRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateSubscribeFlag(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		String oldFeeType = pojo.getSubscribeFlag();
+		pojo.setSubscribeFlag(vo.getSubscribeFlag());
+		pojo.setSubscribeStartDate(UnieapConstants.getDateTime());
+		if (!StringUtils.equals(vo.getSubscribeFlag(), "S0") && !StringUtils.equals(vo.getSubscribeFlag(), "S1")) {
+			pojo.setAutoFlag(UnieapConstants.YES);
+		} else {
+			pojo.setAutoFlag(UnieapConstants.NO);
+		}
+		// 如果试用时间为空,增加试用时间
+		if (pojo.getTrialStartDate() == null) {
+			pojo.setTrialStartDate(UnieapConstants.getDateTime());
+			pojo.setTrialEndDate(DateUtils.addDays(UnieapConstants.getDateTime(), 30));
+		}
+		tradeUserAccountRepository.save(pojo);
+
+		List<TradeUserFee> feeTypes = tradeUserFeeRepository.findByUserIdAndAccountCodeAndFeeType(pojo.getUserId(),
+				pojo.getAccountCode(), oldFeeType);
+		if (feeTypes == null || feeTypes.size() == 0) {
+			TradeUserFee fee = new TradeUserFee();
+			fee.setUserId(pojo.getUserId());
+			fee.setAccountCode(pojo.getAccountCode());
+			fee.setActivateFlag(UnieapConstants.YES);
+			fee.setFeeType(pojo.getSubscribeFlag());
+			fee.setTenantId(UnieapConstants.getTenantId());
+			tradeUserFeeRepository.save(fee);
+		} else {
+			for (TradeUserFee fee : feeTypes) {
+				fee.setFeeType(pojo.getSubscribeFlag());
+			}
+			tradeUserFeeRepository.saveAll(feeTypes);
+		}
+	}
+	/**
+	 * 交易端服务器地址列表
+	 */
+    private String[] clientServerList = new String[] {"192.168.0.104"};
+    /**
+     * 每台交易服务器可启动最多的交易窗口数
+     */
+    private int clientTraderMaxNumber = 6;
+	public void updateTradeAuto(AccountInfoVO vo) {
+		if (!StringUtils.equals(vo.getSubscribeFlag(), "S0") && !StringUtils.equals(vo.getSubscribeFlag(), "S1")) {
+			
+		} 
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateValumn(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		pojo.setValumn(Double.parseDouble(vo.getValumn()));
+		tradeUserAccountRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updatePassword(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		pojo.setPassword(vo.getPassword());
+		tradeUserAccountRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateEmail(TradeUser vo) throws Exception {
+		TradeUser pojo = tradeUserRepository.findById(vo.getId()).get();
+		pojo.setEmail(vo.getEmail());
+		tradeUserRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updatePhoneNumber(TradeUser vo) throws Exception {
+		TradeUser pojo = tradeUserRepository.findById(vo.getId()).get();
+		pojo.setPhoneNumber(vo.getPhoneNumber());
+		tradeUserRepository.save(pojo);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void updateAutoFlag(AccountInfoVO vo) throws Exception {
+		TradeUserAccount pojo = tradeUserAccountRepository.findById(vo.getId()).get();
+		pojo.setAutoFlag(vo.getAutoFlag());
+		tradeUserAccountRepository.save(pojo);
+		OrderVO changePasswordOrder = new OrderVO();
+		JSONObject inputParameters = new JSONObject();
+		inputParameters.put("accountCode", vo.getAccountCode());
+		changePasswordOrder.setId(UnieapConstants.getSeq(null));
+		// 修改MT4交易密码
+		changePasswordOrder.setOrderType(UnieapConstants.ORDER_TYPE.MODIFY_MT4_PASSWORD.name());
+		changePasswordOrder.setOrderStatus("N");
+		changePasswordOrder.setInputParameters(inputParameters.toJSONString());
+
+		OrderVO passwordNotifyOrder = new OrderVO();
+		passwordNotifyOrder.setPendingOrderId(changePasswordOrder.getId());
+		passwordNotifyOrder.setOrderType(UnieapConstants.ORDER_TYPE.SEND_PASSWORD_NOTIFY.name());
+		passwordNotifyOrder.setOrderStatus("N");
+		passwordNotifyOrder.setInputParameters(inputParameters.toJSONString());
+
+		orderBO.addOrder(changePasswordOrder);
+		orderBO.addOrder(passwordNotifyOrder);
+	}
+
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public int addAccount(AccountInfoVO vo) throws Exception {
+		int result = checkAgentCodeExist(vo.getAgentUserCode());
+		if (result != 0) {
+			return result;
+		}
+		TradeUserAccount pojo = new TradeUserAccount();
+		pojo.setAccountCode(vo.getAccountCode());
+		pojo.setAccountType(vo.getAccountType());
+		pojo.setActivateFlag(UnieapConstants.YES);
+		pojo.setSubscribeFlag("S1");
+		pojo.setSubscribeStartDate(UnieapConstants.getDateTime());
+		pojo.setAutoFlag(UnieapConstants.YES);
+		pojo.setAgentCode(vo.getAgentCode());
+		pojo.setAutoFlag(UnieapConstants.NO);
+		pojo.setValumn(0.1);
+		pojo.setBrokerCode(vo.getBrokerCode());
+		pojo.setBrokerName(vo.getBrokerName());
+		pojo.setPassword(vo.getPassword());
+		pojo.setUserId(vo.getUserId());
+		pojo.setUserCode(vo.getUserCode());
+		pojo.setTrialStartDate(UnieapConstants.getDateTime());
+		pojo.setTrialEndDate(DateUtils.addDays(UnieapConstants.getDateTime(), 30));
+		pojo.setEmailNotify(UnieapConstants.YES);
+		pojo.setSmsNotify(UnieapConstants.YES);
+		pojo.setTenantId(UnieapConstants.getTenantId());
+		tradeUserAccountRepository.save(pojo);
+		return 0;
+	}
+
+	public int checkAgentCodeExist(String agentCode) {
+		MeInfoVO meInfoVO = tradeUserRepository.getUserInfoByAgentCode(agentCode);
+		if (meInfoVO == null) {
+			return 3;
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * 获取订阅套餐列表
+	 * 
+	 * @return
+	 */
+	public List<DicDataVO> getSubscribeDicDataList(String groupCode, String language) {
+		List<DicDataVO> datas = tradeUserAccountRepository.getSubscribeDicDataList(groupCode, language);
+		if (datas != null && datas.size() > 0) {
+			return datas;
+		} else {
+			return new ArrayList<DicDataVO>();
+		}
+	}
+
+	/**
+	 * 获取交易平台列表
+	 * 
+	 * @param groupCode
+	 * @param language
+	 * @return
+	 */
+	public List<DicDataVO> getBrokerDicDataList(String groupCode, String language) {
+		List<DicDataVO> datas = tradeUserAccountRepository.getBrokerDicDataList(groupCode, language);
+		if (datas != null && datas.size() > 0) {
+			return datas;
+		} else {
+			return new ArrayList<DicDataVO>();
+		}
+	}
+}

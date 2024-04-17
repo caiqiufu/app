@@ -1,0 +1,129 @@
+package com.slipper.unieap.ea.job;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.slipper.service.unieap.base.email.MailBO;
+import com.slipper.service.unieap.base.email.MailVO;
+import com.slipper.service.unieap.base.sms.SMSBO;
+import com.slipper.unieap.ea.repository.TradeNotifyRepository;
+import com.slipper.unieap.task.job.DynamicJob;
+
+/**
+ * 策略提醒
+ * 
+ * @author caiqi
+ *
+ */
+@Service
+public class TaskTradeNotify extends DynamicJob {
+
+	@Autowired
+	public SMSBO sMSBO;
+
+	@Autowired
+	public MailBO mailBO;
+
+	@Autowired
+	public TradeNotifyRepository tradeNotifyRepository;
+
+	@Value("${spring.mail.username}")
+	String username;
+	@Value("${app_lzy.servicePhoneNumber}")
+	String servicePhoneNumber;
+	@Value("${app_lzy.serviceEmail}")
+	String serviceEmail;
+
+	@Override
+	public void execute(JobExecutionContext context) throws JobExecutionException {
+		sendNotify();
+	}
+
+	public void sendNotify() {
+		// 目前只支持邮件提醒
+		emailNotify();
+		if (ids != null && ids.size() > 0) {
+			tradeNotifyRepository.updateTradeEmailAndSMSNotifyStatus(ids);
+		}
+		smsNotify();
+		tradeNotifyRepository.updateTradeEmailAndSMSNotifyStatus();
+	}
+
+	/**
+	 * Email Notify
+	 */
+	public List<String> emailNotify() {
+		List<Map<String, String>> datas = tradeNotifyRepository.getTradeEmailList();
+		List<String> ids = new ArrayList<String>();
+		for (int i = 0; i < datas.size(); i++) {
+			Map<String, String> data = datas.get(i);
+			ids.add(data.get("id"));
+			MailVO mailvo = new MailVO();
+			mailvo.setSubject("【深圳龙知易科技】订单操作提醒");
+			mailvo.setToAddressList(new String[] { data.get("email") });
+			mailvo.setContent(data.get("notifyContent"));
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("title", mailvo.getSubject());
+			model.put("userName", data.get("userName"));
+			model.put("accountCode", data.get("accountCode"));
+			// order_type:BUY,volume:0.1,open_price:2081.08,close_price:
+			String[] tradeDatas = data.get("notifyContent").split(",");
+			String tradeType = tradeDatas[0].split(":")[1];
+			String lots = tradeDatas[1].split(":")[1];
+			String openPrice = tradeDatas[2].split(":").length == 2 ? tradeDatas[2].split(":")[1] : "";
+			String closePrice = tradeDatas[3].split(":").length == 2 ? tradeDatas[3].split(":")[1] : "";
+			String price = "";
+			if (StringUtils.pathEquals(tradeType, "BUY")) {
+				tradeType = "买入";
+				price = openPrice;
+			}
+			if (StringUtils.pathEquals(tradeType, "SELL")) {
+				tradeType = "卖出";
+				price = openPrice;
+			}
+			if (StringUtils.pathEquals(tradeType, "SELL_CLOSE") || StringUtils.pathEquals(tradeType, "BUY_CLOSE")) {
+				tradeType = "平仓";
+				price = closePrice;
+			}
+			model.put("tradeType", tradeType);
+			model.put("price", price);
+			model.put("lots", lots);
+			model.put("servicePhoneNumber", servicePhoneNumber);
+			model.put("serviceEmail", serviceEmail);
+			try {
+				mailBO.sendTemplateMail(username, mailvo, "trade-email.ftl", model);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return ids;
+	}
+
+	public void smsNotify() {
+		List<Map<String, String>> datas = tradeNotifyRepository.getTradePhoneNumberList();
+		List<String> ids = new ArrayList<String>();
+		for (int i = 0; i < datas.size(); i++) {
+			Map<String, String> data = datas.get(i);
+			ids.add(data.get("id"));
+			String tempCode = "";
+			String notifyContent = "accountCode:" + data.get("accountCode") + ",tradeRecord:"
+					+ data.get("notifyContent");
+			try {
+				sMSBO.sendSMS(new String[] { data.get("phoneNumber") }, notifyContent, tempCode);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+}

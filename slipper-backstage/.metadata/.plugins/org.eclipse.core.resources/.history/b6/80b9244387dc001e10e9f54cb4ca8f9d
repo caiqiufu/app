@@ -1,0 +1,84 @@
+package com.slipper.unieap.ea.me.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.slipper.common.utils.R;
+import com.slipper.service.annotation.Log;
+import com.slipper.unieap.controller.CommonController;
+import com.slipper.unieap.ea.me.bo.MeBO;
+import com.slipper.unieap.ea.myaccount.vo.AccountInfoVO;
+
+@RestController
+@RequestMapping("/backstage/ea/me")
+public class MeController extends CommonController {
+
+	@Autowired
+	MeBO meBO;
+
+	@Autowired
+	private HttpServletRequest request;
+
+	@Log("获取用户信息")
+	@RequestMapping("/getMeInfo")
+	public R getMeInfo(String language, String userCode) {
+		LocaleContextHolder.setLocale(request.getLocale());
+		return R.success(meBO.getMeInfo(userCode));
+	}
+
+	@Log("修改启用标记")
+	@RequestMapping("/updateActivateFlag")
+	public R updateActivateFlag(@RequestBody AccountInfoVO vo) throws Exception {
+		meBO.updateActivateFlag(vo);
+		return R.success();
+	}
+
+	@Log("修改订阅标记")
+	@RequestMapping("/updateSubscribeFlag")
+	public R updateSubscribeFlag(@RequestBody AccountInfoVO vo) throws Exception {
+		meBO.updateSubscribeFlag(vo);
+		return R.success();
+	}
+
+	@Log("修改交易手数")
+	@RequestMapping("/updateValumn")
+	public R updateValumn(@RequestBody AccountInfoVO vo) throws Exception {
+		meBO.updateValumn(vo);
+		return R.success();
+	}
+	
+	@Log("修改交易手数")
+	@RequestMapping("/updatePassword")
+	public R updatePassword(@RequestBody AccountInfoVO vo) throws Exception {
+		meBO.updatePassword(vo);
+		return R.success();
+	}
+
+	@Log("修改自动交易标记")
+	@RequestMapping("/updateAutoFlag")
+	public R updateAutoFlag(@RequestBody AccountInfoVO vo) throws Exception {
+		meBO.updateAutoFlag(vo);
+		return R.success();
+	}
+
+	@RequestMapping("/getSubscribeDicDataList")
+	public R getSubscribeDicDataList() {
+		return R.success(meBO.getSubscribeDicDataList("BILL_FEE_TYPE", request.getLocale().toString()));
+	}
+
+	@RequestMapping("/getBrokerDicDataList")
+	public R getBrokerDicDataList() {
+		return R.success(meBO.getBrokerDicDataList("BILL_FEE_TYPE", request.getLocale().toString()));
+	}
+
+	@Log("新增账户")
+	@RequestMapping("/addAccount")
+	public R addAccount(@RequestBody AccountInfoVO vo) throws Exception {
+		return R.success(meBO.addAccount(vo));
+	}
+}
