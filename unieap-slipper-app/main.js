@@ -57,7 +57,7 @@ export function createApp() {
     //#endif	
 	//app.config.globalProperties.$baseUrl = "https://8.217.6.50:8806/slipper"
 	//app.config.globalProperties.$baseUrl = "https://localhost:8806/slipper"
-	//app.config.globalProperties.$baseUrl = "http://localhost:8806/slipper"
+	app.config.globalProperties.$baseUrl = "http://localhost:8806/slipper"
 	//app.config.globalProperties.$baseUrl = "http://39.108.63.198:8806/slipper"
 	app.config.globalProperties.$backgroundAudioData = {
 		playing: false,
