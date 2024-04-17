@@ -1,0 +1,40 @@
+#格式
+修改日期：2024-03-13
+修改内容:
+1)unieap_task_config 增加数据，全量替换
+2)unieap_job_entity 增加数据，全量替换
+3)unieap_sys_config 修改数据，全量替换
+4)unieap_dic_group,unieap_dic_data 增加数据,全量替换 
+
+修改日期:2024-03-15
+1)unieap_task_config 增加数据，全量替换
+2)unieap_job_entity 增加数据，全量替换
+3)unieap_sys_config 增加数据，全量替换
+4)APP 端修改bug,全量升级
+5)JAVA 后端修改bug,全量升级
+修改日期:2024-03-17
+1)trade_fee_item 修改数据，全量替换
+2)trade_subscribe_record 增加新表
+3)电话号码验证失败问题修复,自动托管失效问题修复
+4)https://mp-a78200fa-0268-4cbb-804a-f581c33ecb4f.cdn.bspapp.com/cloudstorage/9b39c4e0-333e-427d-8e49-127b703e5cb0.apk
+修改日期:2024-03-17
+1)trade_subscribe_record 修改数据，全量替换
+2)trade_user_fee 修改数据，全量替换
+3)trade_auto 增加字段，全量替换
+修改日期:2024-03-22
+1) unieap_sys_config 增加数据，全量替换
+修改日期:2024-03-31
+1)增加表trade_test_result
+2)trade_ea 增加字段 ea_value,已直接同步到生产环境
+3)Java DS 修改hourly 插入数据顺序
+4)修改EA端
+5)修改Client 端
+修改日期:2024-04-06
+1) 后端程序,修改登陆功能bug
+修改日期:2024-04-09
+1) Trade Client 端,修改程序
+2) APP 端修改程序
+修改日期:2024-04-15
+1) 修改后端程序,全量打包升级
+2) 修改数据表trade_auto,执行脚本
+update trade_auto set form_no =SUBSTRING(form_no,5) where id>0

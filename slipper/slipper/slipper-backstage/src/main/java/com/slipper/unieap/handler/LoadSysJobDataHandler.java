@@ -1,0 +1,102 @@
+package com.slipper.unieap.handler;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.stereotype.Service;
+
+import com.slipper.unieap.ApplicationContextProvider;
+import com.slipper.unieap.UnieapConstants;
+import com.slipper.unieap.repository.UnieapJobEntityRepository;
+import com.slipper.unieap.task.job.DynamicJob;
+import com.slipper.unieap.task.service.DynamicJobService;
+import com.slipper.unieap.vo.JobVO;
+
+@Service
+public class LoadSysJobDataHandler implements ConfigHandler {
+
+	@Autowired
+	private SchedulerFactoryBean schedulerFactoryBean;
+
+	@Autowired
+	private DynamicJobService jobService;
+
+	@Autowired
+	private UnieapJobEntityRepository repository;
+
+	@Override
+	public void deal(Map<String, Object> parameters) throws Exception {
+		loadJobData("unieap-common");
+	}
+
+	@Override
+	public boolean reload() throws Exception {
+		loadJobData("unieap-common");
+		return true;
+	}
+
+	public void loadJobData(String taskType) throws SchedulerException {
+		List<JobVO> datas = repository.getByTaskType(taskType);
+		synchronized (log) { // 只允许一个线程进入操作
+			if (datas != null && datas.size() > 0) {
+				Scheduler scheduler = schedulerFactoryBean.getScheduler();
+				for (JobVO job : datas) {
+					JobDataMap map = jobService.getJobDataMap(job);
+					JobKey jobKey = jobService.getJobKey(job);
+					scheduler.unscheduleJob(TriggerKey.triggerKey(jobKey.getName(), jobKey.getGroup()));
+					scheduler.deleteJob(jobKey);
+					if (StringUtils.equals(job.getActivateFlag(), UnieapConstants.YES)) {
+						DynamicJob dynamicJob = (DynamicJob) ApplicationContextProvider.getBean(job.getHandlerName());
+						JobDetail jobDetail = jobService.getJobDetail(dynamicJob.getClass(), jobKey,
+								job.getDescription(), map);
+						scheduler.scheduleJob(jobDetail, jobService.getTrigger(job));
+						log.debug("Load Job Done,TaskDesc:" + job.getTaskDesc() + ",Cron:" + job.getCron());
+					}
+				}
+			}
+		}
+	}
+
+	public void loadJobDataById(Long jobId) throws SchedulerException {
+		JobVO job = repository.getJobById(jobId);
+		Scheduler scheduler = schedulerFactoryBean.getScheduler();
+		JobKey jobKey = jobService.getJobKey(job);
+		scheduler.unscheduleJob(TriggerKey.triggerKey(jobKey.getName(), jobKey.getGroup()));
+		scheduler.deleteJob(jobKey);
+		JobDataMap map = jobService.getJobDataMap(job);
+		DynamicJob dynamicJob = (DynamicJob) ApplicationContextProvider.getBean(job.getHandlerName());
+		JobDetail jobDetail = jobService.getJobDetail(dynamicJob.getClass(), jobKey, job.getDescription(), map);
+		scheduler.scheduleJob(jobDetail, jobService.getTrigger(job));
+	}
+
+	public String JOB_GROUP_NAME = "1";
+	public String TRIGGER_GROUP_NAME = "1";
+
+	public void removeJob(String jobName) {
+		TriggerKey triggerKey = TriggerKey.triggerKey(jobName, TRIGGER_GROUP_NAME);
+		JobKey jobKey = JobKey.jobKey(jobName, JOB_GROUP_NAME);
+		try {
+			Scheduler sched = schedulerFactoryBean.getScheduler();
+			Trigger trigger = (Trigger) sched.getTrigger(triggerKey);
+			if (trigger == null) {
+				return;
+			}
+			sched.pauseTrigger(triggerKey);
+			;// 停止触发器
+			sched.unscheduleJob(triggerKey);// 移除触发器
+			sched.deleteJob(jobKey);// 删除任务
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+}

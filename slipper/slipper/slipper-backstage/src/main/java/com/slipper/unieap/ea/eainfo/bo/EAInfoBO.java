@@ -1,0 +1,588 @@
+package com.slipper.unieap.ea.eainfo.bo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.slipper.service.unieap.base.email.MailBO;
+import com.slipper.unieap.bo.BaseBO;
+import com.slipper.unieap.bo.OrderBO;
+import com.slipper.unieap.ea.eainfo.vo.EAInfoVO;
+import com.slipper.unieap.ea.eainfo.vo.SerieVO;
+import com.slipper.unieap.ea.repository.TradeEARepository;
+import com.slipper.unieap.ea.repository.TradeUserAccountRepository;
+import com.slipper.unieap.ea.repository.TradeUserFeeRepository;
+import com.slipper.unieap.utils.DateUtils;
+
+@Service
+public class EAInfoBO extends BaseBO {
+
+	@Autowired
+	public TradeEARepository tradeEARepository;
+
+	@Autowired
+	public TradeUserFeeRepository tradeUserFeeRepository;
+
+	@Autowired
+	public TradeUserAccountRepository tradeUserAccountRepository;
+
+	@Autowired
+	public MailBO mailBO;
+
+	@Autowired
+	public OrderBO orderBO;
+
+	/**
+	 * 获取本周EA信息
+	 * 
+	 * @param userCode
+	 * @return
+	 */
+	public List<SerieVO> getWeekData(String eaType) {
+		Date dateStart = DateUtils.getWeekStartDate();
+		Date dateEnd = DateUtils.getWeekEndDate();
+		List<SerieVO> series = new ArrayList<SerieVO>();
+		if (StringUtils.equals(eaType, "A")) {
+			SerieVO hserieVO = getEAInfo("H", dateStart, dateEnd);
+			SerieVO dserieVO = getEAInfo("D", dateStart, dateEnd);
+			if (hserieVO != null && dserieVO != null) {
+				if (Integer.parseInt(hserieVO.getTotalTradeOrder()) > Integer.parseInt(dserieVO.getTotalTradeOrder())) {
+					dserieVO.setCategories(hserieVO.getCategories());
+				} else {
+					hserieVO.setCategories(dserieVO.getCategories());
+				}
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (hserieVO == null && dserieVO != null) {
+				hserieVO = new SerieVO();
+				hserieVO.setCategories(dserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (dserieVO == null && hserieVO != null) {
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(hserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (dserieVO == null && hserieVO == null) {
+				hserieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				hserieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(categories);
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+		} else {
+			SerieVO serieVO = getEAInfo(eaType, dateStart, dateEnd);
+			if (serieVO == null) {
+				serieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				serieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				serieVO.setDatas(datas);
+				serieVO.setTotalLostOrder("0");
+				serieVO.setTotalProfitOrder("0");
+				serieVO.setTotalProfitPoint("0");
+				serieVO.setTotalTradeOrder("0");
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			} else {
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			}
+		}
+		return series;
+	}
+
+	/**
+	 * 获取指定周EA数据
+	 * 
+	 * @return
+	 */
+	public SerieVO getWeekData(String eaType, Date startWeekDate, Date endWeekDate) {
+		Date dateStart = DateUtils.getDayStart(startWeekDate);
+		Date dateEnd = DateUtils.getDayEnd(endWeekDate);
+		SerieVO serieVO = getEAInfo(eaType, dateStart, dateEnd);
+		serieVO.setName(dateStart.toString() + "/" + dateEnd.toString() + " EA-" + eaType + "策略");
+		return serieVO;
+	}
+
+	/**
+	 * 获取本月策略
+	 * 
+	 * @param eaType
+	 * @return
+	 */
+	public List<SerieVO> getMonthData(String eaType) {
+		List<SerieVO> series = new ArrayList<SerieVO>();
+		if (StringUtils.equals(eaType, "A")) {
+			SerieVO hserieVO = getMonthEAInfo("H");
+			SerieVO dserieVO = getMonthEAInfo("D");
+			if (hserieVO != null && dserieVO != null) {
+				if (Integer.parseInt(hserieVO.getTotalTradeOrder()) > Integer.parseInt(dserieVO.getTotalTradeOrder())) {
+					dserieVO.setCategories(hserieVO.getCategories());
+				} else {
+					hserieVO.setCategories(dserieVO.getCategories());
+				}
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (hserieVO == null && dserieVO != null) {
+				hserieVO = new SerieVO();
+				hserieVO.setCategories(dserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (dserieVO == null && hserieVO != null) {
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(hserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (hserieVO == null && dserieVO == null) {
+				hserieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				hserieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(categories);
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+		} else {
+			SerieVO serieVO = getMonthEAInfo(eaType);
+			if (serieVO == null) {
+				serieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				serieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				serieVO.setDatas(datas);
+				serieVO.setTotalLostOrder("0");
+				serieVO.setTotalProfitOrder("0");
+				serieVO.setTotalProfitPoint("0");
+				serieVO.setTotalTradeOrder("0");
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			} else {
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			}
+		}
+		return series;
+	}
+
+	@Value("${app_lzy.eaHIP}")
+	String eaHIP;
+	@Value("${app_lzy.eaDIP}")
+	String eaDIP;
+
+	/**
+	 * 查询指定时间段的测试数据
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public SerieVO getEAInfo(String eaType, Date startDate, Date endDate) {
+		Date dateStart = DateUtils.getDayStart(startDate);
+		Date dateEnd = DateUtils.getDayEnd(endDate);
+		if (StringUtils.equals(eaType, "D")) {
+			eaType = eaDIP.split(",")[1];
+		}
+		if (StringUtils.equals(eaType, "H")) {
+			eaType = eaHIP.split(",")[1];
+		}
+		List<EAInfoVO> eaInfoList = tradeEARepository.getEAInfo(eaType, dateStart, dateEnd);
+		SerieVO serieVO = null;
+		if (eaInfoList != null && eaInfoList.size() > 0) {
+			serieVO = new SerieVO();
+			List<String> categories = new ArrayList<String>();
+			List<String> datas = new ArrayList<String>();
+			List<String> eaCommandList = new ArrayList<String>();
+			double totalProfitPoint = 0;
+			double totalTradeOrder = eaInfoList.size();
+			double totalProfitOrder = 0;
+			double totalLostOrder = 0;
+			int i = 1;
+			for (EAInfoVO vo : eaInfoList) {
+				// categories.add(vo.getEaTime());
+				categories.add(Integer.toString(i));
+				i++;
+				datas.add(vo.getProfitPoint());
+				eaCommandList.add(vo.getEaCommand());
+				double profitPoint = Double.parseDouble(vo.getProfitPoint());
+				totalProfitPoint = totalProfitPoint + profitPoint;
+				if (profitPoint >= 0) {
+					totalProfitOrder++;
+				} else {
+					totalLostOrder++;
+				}
+				String[] commands = vo.getEaCommand().split(",");
+				vo.setOrderType(commands[0].split(":")[1]);
+				vo.setOpenPrice(commands[1].split(":")[1]);
+				vo.setClosePrice(commands[2].split(":")[1]);
+			}
+			// 颠倒指令顺序,按照时间倒序
+			Collections.reverse(eaInfoList);
+			serieVO.setEaInfoList(eaInfoList);
+			serieVO.setCategories(categories);
+			serieVO.setDatas(datas);
+			serieVO.setEaCommandList(eaCommandList);
+			serieVO.setTotalLostOrder("" + (int) Math.floor(totalLostOrder));
+			serieVO.setTotalProfitOrder("" + (int) Math.floor(totalProfitOrder));
+			serieVO.setTotalProfitPoint(String.format("%.2f", totalProfitPoint));
+			serieVO.setTotalTradeOrder("" + (int) Math.floor(totalTradeOrder));
+		}
+		return serieVO;
+	}
+
+	/**
+	 * 获取每月按天统计的数据
+	 * 
+	 * @param eaType
+	 * @return
+	 */
+	public SerieVO getMonthEAInfo(String eaType) {
+
+		if (StringUtils.equals(eaType, "D")) {
+			eaType = eaDIP.split(",")[1];
+		}
+		if (StringUtils.equals(eaType, "H")) {
+			eaType = eaHIP.split(",")[1];
+		}
+		List<EAInfoVO> eaInfoList = tradeEARepository.getMonthEAInfo(eaType);
+		SerieVO serieVO = null;
+		if (eaInfoList != null && eaInfoList.size() > 0) {
+			serieVO = new SerieVO();
+			List<String> categories = new ArrayList<String>();
+			List<String> datas = new ArrayList<String>();
+			List<String> eaCommandList = new ArrayList<String>();
+			double totalProfitPoint = 0;
+			double totalTradeOrder = 0;
+			double totalProfitOrder = 0;
+			double totalLostOrder = 0;
+			int i = 1;
+			for (EAInfoVO vo : eaInfoList) {
+				categories.add(Integer.toString(i));
+				i++;
+				String[] rdatas = vo.getProfitPoint().split(",");
+				String profitPoint = rdatas[0];
+				double totalOrder = Double.parseDouble(rdatas[1]);
+				double profitOrder = Double.parseDouble(rdatas[2]);
+				double lostOrder = Double.parseDouble(rdatas[3]);
+				datas.add(profitPoint);
+				totalTradeOrder = totalTradeOrder + totalOrder;
+				totalProfitOrder = totalProfitOrder + profitOrder;
+				totalLostOrder = totalLostOrder + lostOrder;
+				totalProfitPoint = totalProfitPoint + Double.parseDouble(profitPoint);
+				eaCommandList.add(vo.getEaCommand());
+			}
+			serieVO.setCategories(categories);
+			serieVO.setDatas(datas);
+			serieVO.setEaCommandList(eaCommandList);
+			serieVO.setTotalLostOrder("" + (int) Math.floor(totalLostOrder));
+			serieVO.setTotalProfitOrder("" + (int) Math.floor(totalProfitOrder));
+			serieVO.setTotalProfitPoint(String.format("%.2f", totalProfitPoint));
+			serieVO.setTotalTradeOrder("" + (int) Math.floor(totalTradeOrder));
+		}
+		return serieVO;
+	}
+
+	public SerieVO get24WeeksEAInfo(String eaType) {
+		if (StringUtils.equals(eaType, "D")) {
+			eaType = eaDIP.split(",")[1];
+		}
+		if (StringUtils.equals(eaType, "H")) {
+			eaType = eaHIP.split(",")[1];
+		}
+		List<EAInfoVO> eaInfoList = tradeEARepository.get24WeeksEAInfo(eaType);
+		SerieVO serieVO = null;
+		if (eaInfoList != null && eaInfoList.size() > 0) {
+			serieVO = new SerieVO();
+			List<String> categories = new ArrayList<String>();
+			List<String> datas = new ArrayList<String>();
+			List<String> eaCommandList = new ArrayList<String>();
+			double totalProfitPoint = 0;
+			double totalTradeOrder = 0;
+			double totalProfitOrder = 0;
+			double totalLostOrder = 0;
+			int i = 1;
+			for (EAInfoVO vo : eaInfoList) {
+				// categories.add(vo.getEaTime());
+				categories.add(Integer.toString(i));
+				i++;
+				String[] rdatas = vo.getProfitPoint().split(",");
+				String profitPoint = rdatas[0];
+				double totalOrder = Double.parseDouble(rdatas[1]);
+				double profitOrder = Double.parseDouble(rdatas[2]);
+				double lostOrder = Double.parseDouble(rdatas[3]);
+				datas.add(profitPoint);
+				totalTradeOrder = totalTradeOrder + totalOrder;
+				totalProfitOrder = totalProfitOrder + profitOrder;
+				totalLostOrder = totalLostOrder + lostOrder;
+				totalProfitPoint = totalProfitPoint + Double.parseDouble(profitPoint);
+				eaCommandList.add(vo.getEaCommand());
+			}
+			serieVO.setCategories(categories);
+			serieVO.setDatas(datas);
+			serieVO.setEaCommandList(eaCommandList);
+			serieVO.setTotalLostOrder("" + (int) Math.floor(totalLostOrder));
+			serieVO.setTotalProfitOrder("" + (int) Math.floor(totalProfitOrder));
+			serieVO.setTotalProfitPoint(String.format("%.2f", totalProfitPoint));
+			serieVO.setTotalTradeOrder("" + (int) Math.floor(totalTradeOrder));
+		}
+		return serieVO;
+	}
+
+	/**
+	 * 获取最近24周汇总统计数据
+	 * 
+	 * @param eaType
+	 * @return
+	 */
+	public List<SerieVO> get24WeeksData(String eaType) {
+		List<SerieVO> series = new ArrayList<SerieVO>();
+		if (StringUtils.equals(eaType, "A")) {
+			SerieVO hserieVO = get24WeeksEAInfo("H");
+			SerieVO dserieVO = get24WeeksEAInfo("D");
+			if (hserieVO != null && dserieVO != null) {
+				if (Integer.parseInt(hserieVO.getTotalTradeOrder()) > Integer.parseInt(dserieVO.getTotalTradeOrder())) {
+					dserieVO.setCategories(hserieVO.getCategories());
+				} else {
+					hserieVO.setCategories(dserieVO.getCategories());
+				}
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (hserieVO == null && dserieVO != null) {
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+				hserieVO = new SerieVO();
+				hserieVO.setCategories(dserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+			}
+			if (dserieVO == null && hserieVO != null) {
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(hserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (dserieVO == null && hserieVO == null) {
+				hserieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				hserieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(categories);
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+		} else {
+			SerieVO serieVO = get24WeeksEAInfo(eaType);
+			if (serieVO == null) {
+				serieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				serieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				serieVO.setDatas(datas);
+				serieVO.setTotalLostOrder("0");
+				serieVO.setTotalProfitOrder("0");
+				serieVO.setTotalProfitPoint("0");
+				serieVO.setTotalTradeOrder("0");
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			} else {
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			}
+		}
+		return series;
+	}
+}

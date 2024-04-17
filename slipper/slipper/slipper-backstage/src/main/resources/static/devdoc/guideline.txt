@@ -1,0 +1,23 @@
+1.JPA
+1)多表关联时返回的是字段数组而不是POJO对象
+2)采用HQL查询时，新定义VO对象和查询字段完全匹配后可以返回对象，否则会报No converter found capable of converting from type
+3)在JPA delete方法中，需要增加@Transactional @Modifying两个注释
+2. MYSQL 修改数据库操作安全模式
+SET SQL_SAFE_UPDATES=0;
+3. 在Job实现类中，不要开启@Transactional事务，避免出现Job Class被代理后，重新初始化Job时出现异常Couldn't retrieve job because a required class was not found: 
+4. github配置信息
+https://github.com/caiqiufu/slipper.git
+caiqiufu@gmail.com/caiBO12345!  web 登陆账号
+caiqiufu@gmail.com/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   eclipse 连接需要使用token
+5.阿里云代码托管 
+https://codeup.aliyun.com/65eec79fd45aeec0a43f995b/unieapp.git
+caiqiufu/qazWSX123
+6.APP 开发空间
+https://dev.dcloud.net.cn/pages/app/list
+caiqiufu@sohu.com/qazWSX123
+7.APP 升级中心
+caiqiufu/qazWSX123
+8.管理前端
+unieap/qazWSX123
+9. visual studio 账号
+caiqiufu@hotmail.com/chaiBO123!
