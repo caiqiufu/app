@@ -1,7 +1,0 @@
-INDEX VERSION 1.134+C:\Users\caiqi\Documents\GitHub\slipper-backstage\.metadata\.plugins\org.eclipse.jdt.core
-2712527184.index
-3959137331.index
-2551643786.index
-1865797976.index
-1148999568.index
-144940130.index
