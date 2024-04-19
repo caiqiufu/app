@@ -141,7 +141,7 @@ public class JRDBBO {
 				JSONObject newJsonData = datas.getJSONObject(0);
 				String sqlCheckExistGold = "select count(1) as num from trade_daily_detail where symbol = 'gold' and pt= '"
 						+ newJsonData.getString("pt") + "' and buy_valume = '" + newJsonData.getString("bp")
-						+ "' and sell_valume ='" + newJsonData.getString("sp") + "' and ds_name = '" + DS_NAME + "'";
+						+ "' and sell_valume ='" + newJsonData.getString("sp") + "' and ds_name = '" + DS_NAME + "' AND create_time > NOW() - INTERVAL 23 HOUR";
 				int existCountGold = DBManager.getJT().queryForObject(sqlCheckExistGold, Long.class).intValue();
 				if (existCountGold > 0) {
 					isExistFlag = true;
