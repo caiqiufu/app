@@ -24,7 +24,7 @@ public class IGDSTask {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectOtherDataTask();
+		iGDBBO.collectOtherDataTask();
 	}
 	@Scheduled(cron = "0 */5 7-23 * * 1") // 周一06:00-23:00 每间隔5分钟执行一次
 	// @Scheduled(cron="0 5 * * * *") //每小时第5分钟执行
@@ -32,21 +32,21 @@ public class IGDSTask {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectLatestGoldTask();
+		iGDBBO.collectLatestGoldTask();
 	}
 	@Scheduled(cron = "0 */5 0-5,7-23 * * 2-5") // 周二到周五每间隔15分钟执行一次，05:00-06:00 不执行
 	public void scheduledMethod21() {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectOtherDataTask();
+		iGDBBO.collectOtherDataTask();
 	}
 	@Scheduled(cron = "0 */5 0-5,7-23 * * 2-5") // 周二到周五每间隔15分钟执行一次，05:00-06:00 不执行
 	public void scheduledMethod22() {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectLatestGoldTask();
+		iGDBBO.collectLatestGoldTask();
 	}
 	
 	@Scheduled(cron = "0 0/10 0-5 * * 6") // 周六每间隔15分钟执行一次，0-4点执行
@@ -54,14 +54,14 @@ public class IGDSTask {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectOtherDataTask();
+		iGDBBO.collectOtherDataTask();
 	}
 	@Scheduled(cron = "0 0/5 0-5 * * 6") // 周六每间隔15分钟执行一次，0-4点执行
 	public void scheduledMethod32() {
 		IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
 		// System.out.println("定时器被触发" + new Date());
 		logger.info("IG采集数据任务开始执行");
-		//iGDBBO.collectLatestGoldTask();
+		iGDBBO.collectLatestGoldTask();
 	}
 
 	/**
