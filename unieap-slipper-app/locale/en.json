@@ -194,6 +194,7 @@
   "ea.eainfo.text.weekEAInfo":"Week EA Info",
   "ea.eainfo.text.monthEAInfo":"Month EA Info",
   "ea.eainfo.text.24WeeksEAInfo":"Half Year(Week)",
+  "ea.eainfo.text.24WeeksAccuEAInfo":"Half Year Accu%(Week)",
   "ea.eainfo.text.durationEAInfo":"EA Duration",
   "ea.eainfo.text.weekEAHCommandInfo":"Week H EA List",
   "ea.eainfo.text.weekEADCommandInfo":"Week D EA List",

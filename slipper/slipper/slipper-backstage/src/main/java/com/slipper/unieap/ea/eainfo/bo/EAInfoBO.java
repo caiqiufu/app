@@ -415,7 +415,62 @@ public class EAInfoBO extends BaseBO {
 		}
 		return serieVO;
 	}
-
+	/**
+	 * 获取24周汇总统计数据
+	 * @param eaType
+	 * @return
+	 */
+	public SerieVO get24WeeksAccuEAInfo(String eaType) {
+		if (StringUtils.equals(eaType, "D")) {
+			eaType = eaDIP.split(",")[1];
+		}
+		if (StringUtils.equals(eaType, "H")) {
+			eaType = eaHIP.split(",")[1];
+		}
+		List<EAInfoVO> eaInfoList = tradeEARepository.get24WeeksEAInfo(eaType);
+		SerieVO serieVO = null;
+		if (eaInfoList != null && eaInfoList.size() > 0) {
+			serieVO = new SerieVO();
+			List<String> categories = new ArrayList<String>();
+			List<String> datas = new ArrayList<String>();
+			List<String> eaCommandList = new ArrayList<String>();
+			double totalProfitPoint = 0;
+			double totalTradeOrder = 0;
+			double totalProfitOrder = 0;
+			double totalLostOrder = 0;
+			int i = 1;
+			for (EAInfoVO vo : eaInfoList) {
+				// categories.add(vo.getEaTime());
+				categories.add(Integer.toString(i));
+				i++;
+				String[] rdatas = vo.getProfitPoint().split(",");
+				String profitPoint = rdatas[0];
+				double totalOrder = Double.parseDouble(rdatas[1]);
+				double profitOrder = Double.parseDouble(rdatas[2]);
+				double lostOrder = Double.parseDouble(rdatas[3]);
+				//datas.add(profitPoint);
+				totalTradeOrder = totalTradeOrder + totalOrder;
+				totalProfitOrder = totalProfitOrder + profitOrder;
+				totalLostOrder = totalLostOrder + lostOrder;
+				totalProfitPoint = totalProfitPoint + Double.parseDouble(profitPoint);
+				datas.add(String.format("%.2f", totalProfitPoint));
+				eaCommandList.add(vo.getEaCommand());
+			}
+			serieVO.setCategories(categories);
+			serieVO.setDatas(datas);
+			serieVO.setEaCommandList(eaCommandList);
+			serieVO.setTotalLostOrder("" + (int) Math.floor(totalLostOrder));
+			serieVO.setTotalProfitOrder("" + (int) Math.floor(totalProfitOrder));
+			serieVO.setTotalProfitPoint(String.format("%.2f", totalProfitPoint));
+			serieVO.setTotalTradeOrder("" + (int) Math.floor(totalTradeOrder));
+		}
+		return serieVO;
+	}
+    /**
+     * 24周按周收益统计
+     * @param eaType
+     * @return
+     */
 	public SerieVO get24WeeksEAInfo(String eaType) {
 		if (StringUtils.equals(eaType, "D")) {
 			eaType = eaDIP.split(",")[1];
@@ -460,6 +515,129 @@ public class EAInfoBO extends BaseBO {
 			serieVO.setTotalTradeOrder("" + (int) Math.floor(totalTradeOrder));
 		}
 		return serieVO;
+	}
+	/**
+	 * 获取24周累积统计数据
+	 * @param eaType
+	 * @return
+	 */
+	public List<SerieVO> get24WeeksAccuData(String eaType){
+		List<SerieVO> series = new ArrayList<SerieVO>();
+		if (StringUtils.equals(eaType, "A")) {
+			SerieVO hserieVO = get24WeeksAccuEAInfo("H");
+			SerieVO dserieVO = get24WeeksAccuEAInfo("D");
+			if (hserieVO != null && dserieVO != null) {
+				if (Integer.parseInt(hserieVO.getTotalTradeOrder()) > Integer.parseInt(dserieVO.getTotalTradeOrder())) {
+					dserieVO.setCategories(hserieVO.getCategories());
+				} else {
+					hserieVO.setCategories(dserieVO.getCategories());
+				}
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (hserieVO == null && dserieVO != null) {
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+				hserieVO = new SerieVO();
+				hserieVO.setCategories(dserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+			}
+			if (dserieVO == null && hserieVO != null) {
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(hserieVO.getCategories());
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+			if (dserieVO == null && hserieVO == null) {
+				hserieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				hserieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				hserieVO.setDatas(datas);
+				hserieVO.setTotalLostOrder("0");
+				hserieVO.setTotalProfitOrder("0");
+				hserieVO.setTotalProfitPoint("0");
+				hserieVO.setTotalTradeOrder("0");
+				hserieVO.setName("H策略");
+				series.add(hserieVO);
+				dserieVO = new SerieVO();
+				dserieVO.setCategories(categories);
+				dserieVO.setDatas(datas);
+				dserieVO.setTotalLostOrder("0");
+				dserieVO.setTotalProfitOrder("0");
+				dserieVO.setTotalProfitPoint("0");
+				dserieVO.setTotalTradeOrder("0");
+				dserieVO.setName("D策略");
+				series.add(dserieVO);
+			}
+		} else {
+			SerieVO serieVO = get24WeeksEAInfo(eaType);
+			if (serieVO == null) {
+				serieVO = new SerieVO();
+				List<String> categories = new ArrayList<String>();
+				categories.add("1");
+				categories.add("2");
+				categories.add("3");
+				categories.add("4");
+				categories.add("5");
+				serieVO.setCategories(categories);
+				List<String> datas = new ArrayList<String>();
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				datas.add("0");
+				serieVO.setDatas(datas);
+				serieVO.setTotalLostOrder("0");
+				serieVO.setTotalProfitOrder("0");
+				serieVO.setTotalProfitPoint("0");
+				serieVO.setTotalTradeOrder("0");
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			} else {
+				serieVO.setName(eaType + "策略");
+				series.add(serieVO);
+			}
+		}
+		return series;
+		
 	}
 
 	/**

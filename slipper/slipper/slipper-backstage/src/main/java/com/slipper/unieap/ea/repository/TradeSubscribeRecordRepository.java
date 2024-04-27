@@ -17,7 +17,7 @@ public interface TradeSubscribeRecordRepository extends UnieapRepository<TradeSu
 	 * @param accountCode
 	 * @return
 	 */
-	@Query(value = "SELECT e FROM TradeSubscribeRecord e WHERE e.accountCode = ?1 AND e.subscribeEndDate IS NULL")
-	List<TradeSubscribeRecord> getSubscribeRecordList(String accountCode);
+	@Query(value = "SELECT e FROM TradeSubscribeRecord e WHERE e.accountCode = ?1 AND e.activateFlag =?")
+	List<TradeSubscribeRecord> getSubscribeRecordList(String accountCode,String activateFlag);
 
 }

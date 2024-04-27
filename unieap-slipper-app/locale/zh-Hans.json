@@ -197,6 +197,7 @@
 	"ea.eainfo.text.weekEAInfo":"本周EA",
 	"ea.eainfo.text.monthEAInfo":"近1月统计(按天汇总)",
 	"ea.eainfo.text.24WeeksEAInfo":"近半年统计(按周汇总)",
+	"ea.eainfo.text.24WeeksAccuEAInfo":"近半年累计盈亏(%)(按周累计,未扣除佣金并按照100杠杆计算)",
 	"ea.eainfo.text.durationEAInfo":"EA 时间区间",
 	"ea.eainfo.text.weekEAHCommandInfo":"本周EA(H)明细",
 	"ea.eainfo.text.weekEADCommandInfo":"本周EA(D)明细",

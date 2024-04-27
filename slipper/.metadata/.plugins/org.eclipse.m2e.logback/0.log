@@ -420,3 +420,396 @@
 2024-04-18 01:11:17,367 [Worker-11: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
 2024-04-18 01:11:17,367 [Worker-11: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
 2024-04-19 00:53:46,335 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-04-21 22:38:33,139 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2024-04-21 22:39:52,744 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: com.slipper:slipper:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\pom.xml.
+2024-04-21 22:40:00,812 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-service:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-service\pom.xml.
+2024-04-21 22:40:07,530 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-21 22:40:07,660 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-21 22:40:12,172 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-21 22:40:13,324 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-21 22:40:13,970 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-21 22:40:14,577 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:40:17,444 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-core:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-core\pom.xml.
+2024-04-21 22:40:18,338 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:40:20,694 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-shiro:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-shiro\pom.xml.
+2024-04-21 22:40:21,280 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-21 22:40:21,648 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:40:23,515 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-21 22:40:25,694 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-common:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-common\pom.xml.
+2024-04-21 22:40:28,548 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-backstage:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\pom.xml.
+2024-04-21 22:40:28,563 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-21 22:40:28,563 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-21 22:40:29,395 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:40:30,826 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier  to /slipper-shiro/target/classes
+2024-04-21 22:40:32,062 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-netty:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-netty\pom.xml.
+2024-04-21 22:40:34,149 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-21 22:40:34,576 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:40:35,495 [Worker-6: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-21 22:41:10,913 [Worker-36: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-common:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-common\pom.xml.
+2024-04-21 22:41:22,954 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-21 22:41:22,954 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-21 22:41:22,956 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-21 22:41:22,995 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-21 22:41:23,150 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-21 22:41:23,150 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-21 22:41:23,150 [Worker-36: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-common\src\test\resources
+2024-04-21 22:41:25,914 [Worker-3: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-core:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-core\pom.xml.
+2024-04-21 22:41:30,710 [Worker-3: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-21 22:41:37,789 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-21 22:41:37,789 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-21 22:41:37,789 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-21 22:41:37,791 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-21 22:41:37,834 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-21 22:41:37,834 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-21 22:41:37,834 [Worker-3: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-core\src\test\resources
+2024-04-23 22:00:25,903 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-04-23 22:20:23,270 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-23 22:20:23,391 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-23 22:20:28,379 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-23 22:20:29,768 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-23 22:20:29,991 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:30,005 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:33,771 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-service:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-service\pom.xml.
+2024-04-23 22:20:34,243 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:34,263 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:38,359 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:38,359 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:38,363 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:20:38,372 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 13 resources
+2024-04-23 22:20:38,481 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:38,481 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:38,481 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-service\src\test\resources
+2024-04-23 22:20:40,257 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:40,277 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:40,314 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:40,574 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-netty:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-netty\pom.xml.
+2024-04-23 22:20:41,107 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:41,127 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:41,171 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:41,532 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:41,532 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:41,533 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:20:41,551 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:20:41,558 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:41,558 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:41,558 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-netty\src\test\resources
+2024-04-23 22:20:42,601 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:42,617 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:42,656 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:42,889 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-shiro:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-shiro\pom.xml.
+2024-04-23 22:20:43,319 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:43,331 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:43,375 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:43,615 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:43,615 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:43,615 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:20:43,618 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:20:43,625 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:43,625 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:43,625 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-shiro\src\test\resources
+2024-04-23 22:20:51,169 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:51,169 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:51,191 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:51,242 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier  to /slipper-shiro/target/classes
+2024-04-23 22:20:51,523 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.slipper:slipper-backstage:2.0.0 @ C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\pom.xml.
+2024-04-23 22:20:51,939 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-23 22:20:51,939 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-23 22:20:51,960 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-23 22:20:52,011 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier  to /slipper-shiro/target/classes
+2024-04-23 22:20:52,287 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:52,287 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:52,287 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 22:20:52,320 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 22:20:52,963 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:20:52,963 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:20:52,963 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 22:20:53,433 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:20:53,438 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:20:53,439 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:20:53,440 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 22:20:53,602 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:20:53,604 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:20:53,605 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:20:53,605 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 22:20:53,791 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:20:53,792 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:20:53,793 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:20:53,793 [Worker-2: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 22:50:14,918 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:50:14,918 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:50:14,923 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-23 22:50:14,937 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2024-04-23 22:50:14,940 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 22:50:14,940 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 22:50:14,940 [Worker-58: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 22:50:35,038 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:50:35,039 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:50:35,041 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:50:35,041 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 22:50:35,136 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:50:35,136 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:50:35,137 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:50:35,137 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 22:50:35,228 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 22:50:35,229 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 22:50:35,229 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 22:50:35,230 [Worker-58: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:22:50,926 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:22:50,927 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:22:50,933 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:22:50,975 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:22:50,986 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:22:50,986 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:22:50,986 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:25:51,884 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:25:51,885 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:25:51,887 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:25:51,911 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:25:51,920 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:25:51,920 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:25:51,920 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:27:42,984 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:27:42,985 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:27:42,988 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:27:43,007 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:27:43,016 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:27:43,016 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:27:43,016 [Worker-69: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:39:27,849 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:39:27,849 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:39:27,852 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:39:27,877 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:39:27,886 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:39:27,886 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:39:27,886 [Worker-74: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:39:56,822 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:39:56,822 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:39:56,825 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:39:56,845 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:39:56,853 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:39:56,853 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:39:56,853 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:40:38,559 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:40:38,559 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:40:38,562 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:40:38,577 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:40:38,585 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:40:38,585 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:40:38,585 [Worker-70: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:48:28,254 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:48:28,255 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:48:28,255 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:48:28,255 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:48:28,350 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:48:28,351 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:48:28,351 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:48:28,351 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:48:28,444 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:48:28,445 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:48:28,445 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:48:28,445 [Worker-69: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:52:15,451 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:52:15,451 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:52:15,454 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-23 23:52:15,479 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-23 23:52:15,487 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-23 23:52:15,487 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-23 23:52:15,487 [Worker-84: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-23 23:52:47,716 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:52:47,716 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:52:47,717 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:52:47,717 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:52:47,810 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:52:47,811 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:52:47,811 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:52:47,811 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-23 23:52:47,908 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-23 23:52:47,909 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-23 23:52:47,909 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-23 23:52:47,910 [Worker-83: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:12:42,512 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:12:42,512 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:12:42,515 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-24 00:12:42,539 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-24 00:12:42,546 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:12:42,546 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:12:42,546 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-24 00:12:49,577 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:12:49,578 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:12:49,578 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:12:49,578 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:12:49,671 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:12:49,672 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:12:49,672 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:12:49,672 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:12:49,768 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:12:49,769 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:12:49,769 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:12:49,770 [Worker-81: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:16:07,293 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:16:07,293 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:16:07,298 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-24 00:16:07,322 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-24 00:16:07,343 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:16:07,343 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:16:07,343 [Worker-88: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-24 00:16:11,513 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:16:11,514 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:16:11,514 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:16:11,514 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:16:11,607 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:16:11,608 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:16:11,608 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:16:11,608 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:16:11,701 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:16:11,702 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:16:11,702 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:16:11,703 [Worker-86: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:21:33,627 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:21:33,627 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:21:33,630 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-24 00:21:33,640 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2024-04-24 00:21:33,642 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:21:33,642 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:21:33,642 [Worker-92: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-24 00:21:37,660 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:21:37,661 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:21:37,661 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:21:37,661 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:21:37,750 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:21:37,751 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:21:37,751 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:21:37,751 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:21:37,841 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:21:37,842 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:21:37,842 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:21:37,842 [Worker-89: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:33:37,285 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:33:37,285 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:33:37,287 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-24 00:33:37,313 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-24 00:33:37,319 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-24 00:33:37,321 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-24 00:33:37,321 [Worker-91: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-24 00:33:44,892 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:33:44,892 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:33:44,893 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:33:44,893 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:33:44,988 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:33:44,989 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:33:44,989 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:33:44,990 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-24 00:33:45,083 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier null to /slipper-service/target/classes
+2024-04-24 00:33:45,084 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier null to /slipper-core/target/classes
+2024-04-24 00:33:45,084 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier null to /slipper-common/target/classes
+2024-04-24 00:33:45,084 [Worker-91: Launching SlipperApplication] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier null to /slipper-shiro/target/classes
+2024-04-25 23:25:34,802 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-04-26 00:04:49,353 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-26 00:04:52,684 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-26 00:04:52,783 [DefaultMetadataResolver-0-1] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/org/jetbrains/annotations/maven-metadata.xml
+2024-04-26 00:04:56,920 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-26 00:04:57,946 [DefaultMetadataResolver-0-0] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded http://maven.aliyun.com/nexus/content/groups/public/org/jetbrains/annotations/maven-metadata.xml
+2024-04-26 00:04:58,167 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-26 00:04:58,180 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-26 00:05:00,882 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:00,883 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:00,885 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-26 00:05:00,894 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 13 resources
+2024-04-26 00:05:00,998 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:00,998 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:00,998 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-service\src\test\resources
+2024-04-26 00:05:04,789 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-26 00:05:04,806 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-26 00:05:04,839 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-26 00:05:04,902 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:04,903 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:04,903 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-26 00:05:04,908 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-26 00:05:04,915 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:04,915 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:04,915 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-netty\src\test\resources
+2024-04-26 00:05:05,806 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-26 00:05:05,821 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-26 00:05:05,858 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-26 00:05:05,898 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:05,898 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:05,898 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-26 00:05:05,900 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-04-26 00:05:05,911 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:05,912 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:05,912 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-shiro\src\test\resources
+2024-04-26 00:05:11,715 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-service: com.slipper:slipper-service:2.0.0 with classifier  to /slipper-service/target/classes
+2024-04-26 00:05:11,716 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-core: com.slipper:slipper-core:2.0.0 with classifier  to /slipper-core/target/classes
+2024-04-26 00:05:11,726 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-common: com.slipper:slipper-common:2.0.0 with classifier  to /slipper-common/target/classes
+2024-04-26 00:05:11,781 [Worker-47: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/slipper-shiro: com.slipper:slipper-shiro:2.0.0 with classifier  to /slipper-shiro/target/classes
+2024-04-26 00:05:11,894 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:11,894 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:11,894 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 00:05:11,920 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 00:05:12,616 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:05:12,616 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:05:12,616 [Worker-47: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 00:37:45,329 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:37:45,329 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:37:45,345 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 00:37:45,383 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 00:37:45,393 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:37:45,393 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:37:45,393 [Worker-61: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 00:38:10,174 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:38:10,174 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:38:10,176 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 00:38:10,215 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 00:38:10,224 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:38:10,225 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:38:10,225 [Worker-62: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 00:40:39,710 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:40:39,710 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:40:39,713 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 00:40:39,737 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 00:40:39,745 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 00:40:39,745 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 00:40:39,745 [Worker-52: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 20:58:25,444 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 20:58:25,444 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 20:58:25,447 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 20:58:25,487 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 20:58:25,494 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 20:58:25,495 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 20:58:25,495 [Worker-71: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 20:59:44,853 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 20:59:44,853 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 20:59:44,855 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 20:59:44,870 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 20:59:44,878 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 20:59:44,878 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 20:59:44,878 [Worker-67: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 21:09:47,037 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:09:47,037 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:09:47,039 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 21:09:47,062 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 21:09:47,069 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:09:47,070 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:09:47,070 [Worker-77: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 21:16:48,820 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:16:48,820 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:16:48,822 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 21:16:48,845 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 21:16:48,851 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:16:48,851 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:16:48,852 [Worker-85: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 21:23:39,872 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:23:39,872 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:23:39,874 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 21:23:39,896 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 21:23:39,903 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:23:39,903 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:23:39,903 [Worker-79: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-26 21:37:24,789 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:37:24,789 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:37:24,793 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 4 resources
+2024-04-26 21:37:24,817 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 36 resources
+2024-04-26 21:37:24,824 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-04-26 21:37:24,825 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2024-04-26 21:37:24,825 [Worker-97: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\caiqi\Documents\GitHub\slipper\slipper\slipper-backstage\src\test\resources
+2024-04-27 20:28:22,941 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.

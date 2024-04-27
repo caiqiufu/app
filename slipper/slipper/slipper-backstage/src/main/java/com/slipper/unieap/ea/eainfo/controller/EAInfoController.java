@@ -33,4 +33,9 @@ public class EAInfoController extends CommonController {
 	public R get24WeeksEAInfo(String eaType) {
 		return R.success(eAInfoBO.get24WeeksData(eaType));
 	}
+	@Log("获取24周累积EA统计信息")
+	@RequestMapping("/get24WeeksAccuEAInfo")
+	public R get24WeeksAccuEAInfo(String eaType) {
+		return R.success(eAInfoBO.get24WeeksAccuData(eaType));
+	}
 }

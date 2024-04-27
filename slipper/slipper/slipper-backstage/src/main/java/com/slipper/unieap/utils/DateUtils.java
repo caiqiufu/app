@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
@@ -241,10 +242,12 @@ public class DateUtils {
 		Date monthStartDate = Date.from(startOfDay.atZone(ZoneId.systemDefault()).toInstant());
 		return monthStartDate;
 	}
-    /**
-     * 获取当月结束时间
-     * @return
-     */
+
+	/**
+	 * 获取当月结束时间
+	 * 
+	 * @return
+	 */
 	public static Date getMonthEndDate() {
 		LocalDate currentDate = LocalDate.now();
 		LocalDate lastDayOfMonth = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
@@ -255,4 +258,56 @@ public class DateUtils {
 		return monthEndDate;
 	}
 
+	/**
+	 * 给定的日期增加天数
+	 */
+	public static Date addDays(Date date, int days) {
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// 增加天数
+		localDate = localDate.plusDays(days);
+		// 转换为ZonedDateTime
+		ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+		// 转换为Instant
+		java.time.Instant instant = zonedDateTime.toInstant();
+		// 转换为Date
+		return Date.from(instant);
+	}
+
+	/**
+	 * 给定的日期增加周数
+	 * 
+	 * @param date
+	 * @param weeks
+	 * @return
+	 */
+	public static Date addWeeks(Date date, int weeks) {
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// 增加周数
+		localDate = localDate.plusWeeks(weeks);
+		// 转换为ZonedDateTime
+		ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+		// 转换为Instant
+		java.time.Instant instant = zonedDateTime.toInstant();
+		// 转换为Date
+		return Date.from(instant);
+	}
+
+	/**
+	 * 给定的日期增加月数
+	 * 
+	 * @param date
+	 * @param months
+	 * @return
+	 */
+	public static Date addMonths(Date date, int months) {
+		LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		// 增加月数
+		localDate = localDate.plusMonths(months);
+		// 转换为ZonedDateTime
+		ZonedDateTime zonedDateTime = localDate.atStartOfDay(ZoneId.systemDefault());
+		// 转换为Instant
+		java.time.Instant instant = zonedDateTime.toInstant();
+		// 转换为Date
+		return Date.from(instant);
+	}
 }

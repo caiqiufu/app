@@ -87,20 +87,20 @@ public class DelayQueueManager implements CommandLineRunner {
 			log.info("hourly 数据采集完成");
 		}
 		if (StringUtils.equals(task.getData().getIdentifier(), "priceGoldJR")) {
-			JRDBBO jRDBBO = (JRDBBO) ApplicationContextProvider.getBean("JRDBBO");
-			jRDBBO.priceGold();
-			log.info("price 数据采集完成");
+			//JRDBBO jRDBBO = (JRDBBO) ApplicationContextProvider.getBean("JRDBBO");
+			//jRDBBO.priceGold();
+			//log.info("price 数据采集完成");
 		}
 
 		if (StringUtils.equals(task.getData().getIdentifier(), "IGCollectOtherData")) {
 			IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
-			iGDBBO.collectOtherData();
-			log.info("IG 数据采集完成");
+			//iGDBBO.collectOtherData();
+			//log.info("IG 数据采集完成");
 		}
 		if (StringUtils.equals(task.getData().getIdentifier(), "IGCollectLatestGold")) {
 			IGDBBO iGDBBO = (IGDBBO) ApplicationContextProvider.getBean("IGDBBO");
-			iGDBBO.collectLatestGold();
-			log.info("IG 数据采集完成");
+			//iGDBBO.collectLatestGold();
+			//log.info("IG 数据采集完成");
 		}
 		/*
 		 * if (StringUtils.equals(task.getData().getIdentifier(), "OACollectOtherData"))

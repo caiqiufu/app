@@ -87,17 +87,17 @@ public class MeBO extends BaseBO {
 			if (StringUtils.equals(vo.getActivateFlag(), UnieapConstants.YES)) {
 				addTradeSubscribeRecord(pojo.getAccountCode(), pojo.getSubscribeFlag());
 			} else {
-				//停用
+				// 停用
 				List<TradeSubscribeRecord> tradeSubscribeRecordList = tradeSubscribeRecordRepository
 						.getSubscribeRecordList(pojo.getAccountCode());
-				//修改最新的订阅结束时间为当前时间-1.结束订阅
+				// 修改最新的订阅结束时间为当前时间-1.结束订阅
 				if (tradeSubscribeRecordList != null && tradeSubscribeRecordList.size() > 0) {
 					for (TradeSubscribeRecord tradeSubscribeRecord : tradeSubscribeRecordList) {
 						tradeSubscribeRecord.setSubscribeEndDate(com.slipper.unieap.utils.DateUtils
 								.getDayEnd(DateUtils.addDays(UnieapConstants.getDateTime(), -1)));
 					}
 					tradeSubscribeRecordRepository.saveAll(tradeSubscribeRecordList);
-				}				
+				}
 			}
 			updateTradeAuto(pojo);
 			return 0;
@@ -160,7 +160,7 @@ public class MeBO extends BaseBO {
 			tradeUserFeeRepository.saveAll(feeTypes);
 		}
 		updateTradeAuto(pojo);
-		//增加或者修改订阅记录
+		// 增加或者修改订阅记录
 		updateTradeSubscribeRecord(pojo.getAccountCode(), vo.getSubscribeFlag());
 
 	}
@@ -177,23 +177,21 @@ public class MeBO extends BaseBO {
 	 */
 	public void updateTradeAuto(TradeUserAccount vo) {
 		TradeAutoVO tradeAuto = tradeAutoRepository.getAutoInfo(vo.getAccountCode());
-		if(StringUtils.equals(vo.getActivateFlag(),UnieapConstants.NO))
-		{
-			//停用后删除托管信息
+		if (StringUtils.equals(vo.getActivateFlag(), UnieapConstants.NO)) {
+			// 停用后删除托管信息
 			if (tradeAuto != null) {
 				tradeAutoRepository.deleteById(tradeAuto.getId());
 			}
-		}else
-		{
+		} else {
 			if (!StringUtils.equals(vo.getSubscribeFlag(), "S0") && !StringUtils.equals(vo.getSubscribeFlag(), "S1")) {
 				// 订阅自动托管,如果不存在托管记录则增加托管记录
 				if (tradeAuto == null) {
-					//可托管的服务器地址,在每台服务器上遍历是否有可用的托管服务
+					// 可托管的服务器地址,在每台服务器上遍历是否有可用的托管服务
 					String[] climentServerList = UnieapConstants.SYS_DATA.get("ClientServerList").split(",");
 					boolean isAdded = false;
 					int clientTraderMaxNumber = Integer.parseInt(UnieapConstants.SYS_DATA.get("ClientTraderMaxNumber"));
 					for (String clientServer : climentServerList) {
-						if(isAdded) {
+						if (isAdded) {
 							break;
 						}
 						List<TradeAuto> tradeAutoList = tradeAutoRepository.findByExecuteIp(clientServer);
@@ -246,7 +244,7 @@ public class MeBO extends BaseBO {
 						}
 					}
 				} else {
-					//修改托管策略地址
+					// 修改托管策略地址
 					TradeAuto eTradeAuto = tradeAutoRepository.getById(tradeAuto.getId());
 					if (StringUtils.equals(vo.getEaType(), "H")) {
 						eTradeAuto.setEaIp(eaHIP.split(",")[0]);
@@ -262,7 +260,7 @@ public class MeBO extends BaseBO {
 					tradeAutoRepository.deleteById(tradeAuto.getId());
 				}
 			}
-		}		
+		}
 	}
 
 	/**
@@ -505,16 +503,52 @@ public class MeBO extends BaseBO {
 	}
 
 	/**
-	 * 更新订阅记录,原有记录设置订阅结束时间,并新增加订阅记录
+	 * 更新订阅记录,原有记录设置订阅结束时间,并新增加订阅记录,每个订阅都是自然月周期,即从本月1号生效,月底失效
 	 * 
 	 * @param accountCode
 	 * @param subscribeFlag
 	 */
 	public void updateTradeSubscribeRecord(String accountCode, String subscribeFlag) {
 		List<TradeSubscribeRecord> tradeSubscribeRecordList = tradeSubscribeRecordRepository
-				.getSubscribeRecordList(accountCode);
+				.getSubscribeRecordList(accountCode, UnieapConstants.YES);
 		if (tradeSubscribeRecordList != null && tradeSubscribeRecordList.size() > 0) {
+			if (tradeSubscribeRecordList.size() == 1) {
+				TradeSubscribeRecord tradeSubscribeRecord = tradeSubscribeRecordList.get(0);
+				// 未修改过,只有一条订阅记录,修改成为其他套餐
+				if (!StringUtils.equals(tradeSubscribeRecord.getSubscribeFlag(), subscribeFlag)) {
+					tradeSubscribeRecord.setSubscribeEndDate(com.slipper.unieap.utils.DateUtils.getMonthEndDate());
+					tradeSubscribeRecordRepository.save(tradeSubscribeRecord);
+					TradeSubscribeRecord newTradeSubscribeRecord = new TradeSubscribeRecord();
+					newTradeSubscribeRecord.setAccountCode(accountCode);
+					newTradeSubscribeRecord.setActivateFlag(UnieapConstants.YES);
+					newTradeSubscribeRecord.setSubscribeFlag(subscribeFlag);
+					newTradeSubscribeRecord.setSubscribeStartDate(com.slipper.unieap.utils.DateUtils
+							.addDays(com.slipper.unieap.utils.DateUtils.getMonthEndDate(), 1));
+					newTradeSubscribeRecord.setTenantId(UnieapConstants.getTenantId());
+					tradeSubscribeRecordRepository.save(newTradeSubscribeRecord);
+				}
+			}
+			if (tradeSubscribeRecordList.size() == 2) {
+				for(TradeSubscribeRecord tradeSubscribeRecord : tradeSubscribeRecordList) {
+					if(tradeSubscribeRecord.getSubscribeEndDate() == null && !StringUtils.equals(tradeSubscribeRecord.getSubscribeFlag(), subscribeFlag)) {
+						tradeSubscribeRecordRepository.delete(tradeSubscribeRecord);
+						TradeSubscribeRecord newTradeSubscribeRecord = new TradeSubscribeRecord();
+						newTradeSubscribeRecord.setAccountCode(accountCode);
+						newTradeSubscribeRecord.setActivateFlag(UnieapConstants.YES);
+						newTradeSubscribeRecord.setSubscribeFlag(subscribeFlag);
+						newTradeSubscribeRecord.setSubscribeStartDate(com.slipper.unieap.utils.DateUtils
+								.addDays(com.slipper.unieap.utils.DateUtils.getMonthEndDate(), 1));
+						newTradeSubscribeRecord.setTenantId(UnieapConstants.getTenantId());
+						tradeSubscribeRecordRepository.save(newTradeSubscribeRecord);
+					}
+				}
+			}
 			for (TradeSubscribeRecord tradeSubscribeRecord : tradeSubscribeRecordList) {
+				if (StringUtils.equals(tradeSubscribeRecord.getSubscribeFlag(), subscribeFlag)) {
+					tradeSubscribeRecord.setSubscribeEndDate(null);
+				} else {
+
+				}
 				tradeSubscribeRecord.setSubscribeEndDate(com.slipper.unieap.utils.DateUtils
 						.getDayEnd(DateUtils.addDays(UnieapConstants.getDateTime(), -1)));
 			}

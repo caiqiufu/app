@@ -14,7 +14,6 @@ INDEX VERSION 1.134+C:\Users\caiqi\Documents\GitHub\slipper-backstage-ds\.metada
 3458253638.index
 243840223.index
 3992982441.index
-1017999378.index
 4214229374.index
 1164954469.index
 58089328.index

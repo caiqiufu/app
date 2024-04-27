@@ -35,6 +35,12 @@
 			</view>
 		</uni-section>
 		
+		<uni-section :title="$t('ea.eainfo.text.24WeeksAccuEAInfo')" type="line">
+			<view class="charts-box">
+			  <qiun-data-charts type="line" :chartData="halfYearWeeksAccuEAData"/>
+			</view>
+		</uni-section>
+		
 		<uni-section :title="$t('ea.eainfo.text.weekEAHCommandInfo')" type="line" v-if="isShowH">
 			<view>
 				<uni-table ref="table" :loading="loading" border stripe type="" :emptyText="$t('common.tips.nodata')">
@@ -97,6 +103,7 @@
 				halfYearWeeksEAData:{},
 				halfYearWeeksEA1Summary:"",
 				halfYearWeeksEA2Summary:"",
+				halfYearWeeksAccuEAData:{},
 				durationEATitle:"",
 				durationEAData: {},
 				weekEAHCommand:[],
@@ -145,6 +152,7 @@
 				this.getWeekEAInfo();
 				this.getMonthEAInfo();
 				this.get24WeeksEAInfo();
+				this.get24WeeksAccuEAInfo();
 			},
 			// 分页触发
 			change(e) {
@@ -359,6 +367,54 @@
 								this.halfYearWeeksEA2Summary = "【D策略】总盈亏点数["+ddata.totalProfitPoint+"]"+"总单数["+ddata.totalTradeOrder+"]"+"盈利单数["+ddata.totalProfitOrder+"]"+"亏损单数["+ddata.totalLostOrder+"]";
 							}
 							this.halfYearWeeksEAData.series.push({
+										"name":ddata.name,
+										"data":ddata.datas,
+										"color":"#008000"
+									});
+						}
+					},
+					fail: (e) => {
+						console.log(e)
+					}
+				})
+			},
+			get24WeeksAccuEAInfo(){
+				uni.request({
+					url: this.$baseUrl+'/backstage/ea/eainfo/get24WeeksAccuEAInfo',
+					data: {
+						token: uni.getStorageSync("token"),
+						eaType: this.eaType
+					},
+					success: (res) => {
+						if(res.data.data.length==1){
+							if(this.eaType=='H'){
+								let sdata = res.data.data[0];
+								this.halfYearWeeksAccuEAData.categories = sdata.categories;
+								this.halfYearWeeksAccuEAData.series = [{
+											"name":sdata.name,
+											"data":sdata.datas,
+										}]
+							}else{
+								let ddata = res.data.data[0];
+								this.halfYearWeeksAccuEAData.categories = ddata.categories;
+								this.halfYearWeeksAccuEAData.series = [{
+											"name":ddata.name,
+											"data":ddata.datas,
+											"color":"#008000"
+										}]
+							}
+							
+						}
+						if(res.data.data.length==2){
+							let hdata = res.data.data[0];
+							this.halfYearWeeksAccuEAData.categories = hdata.categories;
+							this.halfYearWeeksAccuEAData.series = [{
+										"name":hdata.name,
+										"data":hdata.datas,
+										"color":"#0000FF"
+									}]
+							let ddata = res.data.data[1];
+							this.halfYearWeeksAccuEAData.series.push({
 										"name":ddata.name,
 										"data":ddata.datas,
 										"color":"#008000"
