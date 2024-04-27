@@ -410,7 +410,7 @@ public class JRDBBO {
 		//DBManager.getJT().execute(copytradesumdata);
 		//DBManager.getJT().execute(copytradelatestdata);
 		//DBManager.getJT().execute("delete from trade_daily_detail");
-		DBManager.getJT().execute("delete from trade_daily_sum");
+		//DBManager.getJT().execute("delete from trade_daily_sum");
 		DBManager.getJT().execute("delete from trade_latest");
 		DBManager.getJT().execute("delete from trade_price");
 		DBManager.getJT().execute("delete from trade_sum");
