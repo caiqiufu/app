@@ -1,1 +1,0 @@
-"use strict";const t=require("../../../common/vendor.js"),e={props:{pid:{type:[Number,String],default:""}},data:()=>({dataList:[]}),created(){},methods:{loadData(){},clear(){this.dataList.length=0}}};const a=t._export_sfc(e,[["render",function(e,a,r,d,o,n){return{a:t.t(r.pid)}}],["__scopeId","data-v-e0ae306d"]]);wx.createComponent(a);

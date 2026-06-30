@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),t={data:()=>({title:"navigator"}),computed:{...e.mapState({hasLeftWin:e=>!e.noMatchLeftWindow})}};if(!Array){e.resolveComponent("page-head")()}Math;const a=e._export_sfc(t,[["render",function(t,a,n,o,r,i){return e.e({a:e.p({title:r.title}),b:!t.hasLeftWin},(t.hasLeftWin,{}))}]]);wx.createPage(a);

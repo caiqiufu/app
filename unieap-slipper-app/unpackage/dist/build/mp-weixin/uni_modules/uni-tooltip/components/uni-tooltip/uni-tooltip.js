@@ -1,1 +1,0 @@
-"use strict";const t=require("../../../../common/vendor.js"),n={name:"uni-tooltip",data:()=>({}),props:{content:{type:String,default:""},placement:{type:String,default:"bottom"}}};const e=t._export_sfc(n,[["render",function(n,e,o,c,r,s){return t.e({a:o.content||n.$slots.content},o.content||n.$slots.content?{b:t.t(o.content)}:{})}]]);wx.createComponent(e);

@@ -1,2 +1,0 @@
-@import "../../../nvue.wxss";
-.example-body{display:flex;flex-direction:row;justify-content:flex-start;align-items:flex-end;flex-wrap:wrap}.tag-view{margin-right:10px}

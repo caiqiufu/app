@@ -1,2 +1,0 @@
-@import "../../../nvue.wxss";
-.slot-box{display:flex;flex-direction:row;align-items:center}.slot-image{display:block;margin-right:10px;width:30px;height:30px}.slot-text{flex:1;font-size:14px;color:#4cd964;margin-right:10px}

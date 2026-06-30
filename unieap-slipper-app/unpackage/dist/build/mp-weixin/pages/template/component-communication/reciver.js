@@ -1,1 +1,0 @@
-"use strict";const e=require("../../../common/vendor.js"),t={data:()=>({msg:""}),created(){e.index.$on("cc",this.recive)},beforeDestroy(){e.index.$off("cc",this.recive)},methods:{recive(e){this.msg=e.msg}}};const r=e._export_sfc(t,[["render",function(t,r,s,c,o,n){return{a:e.t(""===o.msg?"等待发送":"收到消息："),b:e.t(o.msg)}}]]);wx.createComponent(r);
